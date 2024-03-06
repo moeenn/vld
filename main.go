@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import ()
 
 /*
 TODO: Validators required
@@ -58,11 +56,42 @@ validator := v.Struct {
 var errors Map[string][[]v.ValidationError] = v.Validate(data)
 */
 
-func main() {
-	user := User{
-		Id:    10,
-		Email: "admin@site.com",
+/*
+
+type LoginForm struct {
+	Email string
+	Password string
+}
+
+func (f LoginForm) Validate() []RuleErrors {
+	validations := []v.Validation {
+		{
+			Tag: "email",
+			Data: f.Email,
+			Rules: []v.Rules {v.NonEmptyString, v.Email},
+		},
+  		{
+			Tag: "password",
+			Data: f.Password,
+			Rules: []v.Rules {v.NonEmptyString, v.MinLength(8)},
+		},
 	}
 
-	fmt.Printf("%+v\n", user)
+	return v.Validate(validations)
+}
+
+*/
+
+type Rule func(any) error
+
+type Validation struct {
+	Tag   string
+	Data  any
+	Rules []Rule
+}
+
+// only capture singular errors ?!!
+type ValidationErrors map[string]string
+
+func main() {
 }
