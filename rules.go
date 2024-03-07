@@ -172,6 +172,7 @@ func LessThanInt(limit int) Rule {
 }
 
 // Email check if the provide input is a valid email address.
+// TODO: consider using a simple regex pattern for validation
 func Email(input any) error {
 	err := errors.New("Please provide a valid email address")
 	asString, ok := input.(string)
