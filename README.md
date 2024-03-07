@@ -6,10 +6,14 @@ A data validation library for GoLang.
 - [x] Length (exact)
 - [x] Min length
 - [x] Max length
-- [x] Min (number)
-- [x] Max (number)
-- [x] Less than (number)
-- [x] Greater than (number)
+- [x] Min Float
+- [x] Max Float
+- [x] Min Integer
+- [x] Max Integer
+- [x] Less than Float
+- [x] Greater than Float
+- [x] Less than Int
+- [x] Greater than Int
 - [x] Email
 - [ ] UUID
 - [ ] URL
@@ -19,10 +23,10 @@ A data validation library for GoLang.
 - [ ] Before or equal to date
 - [ ] After date
 - [ ] After or equal to date
-- [ ] Starts with
-- [ ] Doesn't start with
-- [ ] Ends with
-- [ ] Doesn't end with
+- [x] Starts with
+- [x] Doesn't start with
+- [x] Ends with
+- [x] Doesn't end with
 - [ ] Enum
 - [ ] Password
 - [ ] Base64
