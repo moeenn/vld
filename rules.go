@@ -1,6 +1,7 @@
 package vld
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -308,6 +309,41 @@ func UUID(input any) error {
 
 	match, errMatch := regexp.MatchString(PATTERN_UUID, asString)
 	if errMatch != nil || !match {
+		return err
+	}
+	return nil
+}
+
+// Password check if the provided input is a valid string and a reasonably strong
+// password.
+func Password(input any) error {
+	err := errors.New("Please provide a stronger password")
+	asString, ok := input.(string)
+	if !ok {
+		return err
+	}
+
+	match, errMatch := regexp.MatchString(PATTERN_PASSWORD_STRENGTH, asString)
+
+	// NOTE: regexp pattern being used matches invalid passwords instead of
+	// strong passwords. If match is true, it means password was weak.
+	if errMatch != nil || match {
+		return err
+	}
+	return nil
+}
+
+// JSON check if the provided code is a valid string and a valid json.
+func JSON(input any) error {
+	err := errors.New("The input must be a valid JSON string")
+	asString, ok := input.(string)
+	if !ok {
+		return err
+	}
+
+	var target any
+	errUnmarshal := json.Unmarshal([]byte(asString), &target)
+	if errUnmarshal != nil {
 		return err
 	}
 	return nil

@@ -23,7 +23,8 @@ func TestEmailPattern(t *testing.T) {
 	for _, testCase := range testCases {
 		_, err := regexp.MatchString(PATTERN_EMAIL, testCase.Input)
 		if testCase.IsValid && err != nil {
-			t.Errorf("pattern failed for valid input: %s", testCase.Input)
+			t.Errorf(errValidFailed, testCase.Input)
+			return
 		}
 	}
 }
@@ -41,7 +42,34 @@ func TestUUIDPattern(t *testing.T) {
 		isCurrentValid := err == nil || match
 
 		if testCase.IsValid && !isCurrentValid {
-			t.Errorf("pattern failed for valid input: %s", testCase.Input)
+			t.Errorf(errValidFailed, testCase.Input)
+			return
+		}
+	}
+}
+
+func TestPasswordStrengthPattern(t *testing.T) {
+	testCases := []testCase{
+		{Input: "123_Apple", IsValid: true},
+		{Input: "Ax2@11", IsValid: false},                // less than 8 characters in length
+		{Input: "vmdk2@vkvqew", IsValid: false},          // upper-case letter missing
+		{Input: "543*&SKCM92S0C//", IsValid: false},      // lower-case letter missing
+		{Input: "@!Ackanslcksan_scm$", IsValid: false},   // number missing
+		{Input: "123cckasnlcKACNslls13", IsValid: false}, // special-character missing
+		{Input: "password", IsValid: false},              // multiple-rule violations
+		{Input: "abc123", IsValid: false},                // multiple-rule violations
+	}
+
+	for _, testCase := range testCases {
+		match, err := regexp.MatchString(PATTERN_PASSWORD_STRENGTH, testCase.Input)
+
+		// NOTE: regexp pattern being used matches invalid passwords instead of
+		// strong passwords. If match is true, it means password was weak.
+		isCurrentValid := err == nil || !match
+
+		if testCase.IsValid && !isCurrentValid {
+			t.Errorf(errValidFailed, testCase.Input)
+			return
 		}
 	}
 }

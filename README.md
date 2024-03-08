@@ -28,13 +28,11 @@ A data validation library for GoLang.
 - [x] Ends with
 - [x] Doesn't end with
 - [x] Enum
-- [ ] Password (???)
+- [x] Password
 - [ ] Base64
-- [ ] JSON
+- [x] JSON
 - [x] Regex
 - [x] Same
 - [ ] Array (???)
 - [ ] Min items
 - [ ] Max items
-- [ ] Alphanumeric string
-- [ ] Slug

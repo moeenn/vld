@@ -803,3 +803,61 @@ func TestUUIDInvalidInputType(t *testing.T) {
 		return
 	}
 }
+
+/**
+ * Rule: Password
+ *
+ */
+func TestPasswordValidInput(t *testing.T) {
+	err := Password("Q1w2e3r4#!@")
+	if err != nil {
+		t.Errorf(errValidFailed, err.Error())
+		return
+	}
+}
+
+func TestPasswordInvalidInput(t *testing.T) {
+	err := Password("abc123")
+	if err == nil {
+		t.Error(errInvalidPassed)
+		return
+	}
+}
+
+func TestPasswordInvalidInputType(t *testing.T) {
+	err := Password(40_000_234.4)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}
+
+/**
+ * Rule: JSON
+ *
+ */
+func TestJSONValidInput(t *testing.T) {
+	input := `{"a":1,"b":"random","c":true,"d":[1,2,3]}`
+	err := JSON(input)
+	if err != nil {
+		t.Errorf(errValidFailed, err.Error())
+		return
+	}
+}
+
+func TestJSONInvalidInput(t *testing.T) {
+	input := `{"a":1,"b':"random"`
+	err := JSON(input)
+	if err == nil {
+		t.Error(errInvalidPassed)
+		return
+	}
+}
+
+func TestJSONInvalidInputType(t *testing.T) {
+	err := JSON(true)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}
