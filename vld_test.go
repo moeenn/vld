@@ -33,24 +33,16 @@ func TestLoginFormExample(t *testing.T) {
 	}
 }
 
-// TODO: implement
-func TestPasswordConfirmationExample(t *testing.T) {
+func TestResetPasswordExample(t *testing.T) {
 	form := struct {
-		Email           string
 		Password        string
 		ConfirmPassword string
 	}{
-		Email:           "admin@site.com",
 		Password:        "q1w2e3r4",
 		ConfirmPassword: "q1w2e3r4",
 	}
 
 	validations := []Validation{
-		{
-			Tag:   "email",
-			Data:  form.Email,
-			Rules: []Rule{NonEmptyString, Email},
-		},
 		{
 			Tag:   "password",
 			Data:  form.Password,

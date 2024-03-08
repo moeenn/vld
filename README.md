@@ -27,12 +27,12 @@ A data validation library for GoLang.
 - [x] Doesn't start with
 - [x] Ends with
 - [x] Doesn't end with
-- [ ] Enum
-- [ ] Password
+- [x] Enum
+- [ ] Password (???)
 - [ ] Base64
 - [ ] JSON
 - [ ] Regex
 - [x] Same
-- [ ] Array
+- [ ] Array (???)
 - [ ] Min items
 - [ ] Max items
