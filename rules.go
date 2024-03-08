@@ -3,6 +3,7 @@ package vld
 import (
 	"errors"
 	"fmt"
+	"net/url"
 	"slices"
 	"strings"
 )
@@ -257,4 +258,19 @@ func Enum(enumValues ...string) Rule {
 		}
 		return nil
 	}
+}
+
+// URL check if the provided input is a valid string and a valid URL.
+func URL(input any) error {
+	err := errors.New("The input must be a valid URL")
+	asString, ok := input.(string)
+	if !ok {
+		return err
+	}
+
+	_, err = url.ParseRequestURI(asString)
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -713,3 +713,37 @@ func TestEnumInvalidInputType(t *testing.T) {
 		return
 	}
 }
+
+/**
+ * Rule: URL
+ *
+ */
+func TestURLValidInput(t *testing.T) {
+	err := URL("https://site.com/abc?some=random")
+	if err != nil {
+		t.Errorf(errValidFailed, err.Error())
+		return
+	}
+}
+
+func TestURLInvalidInput(t *testing.T) {
+	err := URL("not-a-valid-url")
+	if err == nil {
+		t.Error(errInvalidPassed)
+		return
+	}
+
+	err = URL("google.com")
+	if err == nil {
+		t.Errorf(errInvalidPassed)
+		return
+	}
+}
+
+func TestURLInvalidInputType(t *testing.T) {
+	err := URL(500_000.67)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}
