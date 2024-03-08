@@ -32,7 +32,7 @@ A data validation library for GoLang.
 - [ ] Base64
 - [ ] JSON
 - [ ] Regex
-- [ ] Same
+- [x] Same
 - [ ] Array
 - [ ] Min items
 - [ ] Max items

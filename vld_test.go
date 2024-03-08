@@ -5,15 +5,23 @@ import (
 )
 
 func TestLoginFormExample(t *testing.T) {
+	form := struct {
+		Email    string
+		Password string
+	}{
+		Email:    "admin@site.com",
+		Password: "q1w2e3r4",
+	}
+
 	validations := []Validation{
 		{
 			Tag:   "email",
-			Data:  "admin@site.com",
+			Data:  form.Email,
 			Rules: []Rule{NonEmptyString, Email},
 		},
 		{
 			Tag:   "password",
-			Data:  "q1w2e3r4",
+			Data:  form.Password,
 			Rules: []Rule{NonEmptyString, MinLength(8)},
 		},
 	}
@@ -23,5 +31,41 @@ func TestLoginFormExample(t *testing.T) {
 		t.Error("valid data returned as invalid")
 		return
 	}
-	// asJSON, err := json.Marshal(validationErrors.(ValidationErrors).Errors)
+}
+
+// TODO: implement
+func TestPasswordConfirmationExample(t *testing.T) {
+	form := struct {
+		Email           string
+		Password        string
+		ConfirmPassword string
+	}{
+		Email:           "admin@site.com",
+		Password:        "q1w2e3r4",
+		ConfirmPassword: "q1w2e3r4",
+	}
+
+	validations := []Validation{
+		{
+			Tag:   "email",
+			Data:  form.Email,
+			Rules: []Rule{NonEmptyString, Email},
+		},
+		{
+			Tag:   "password",
+			Data:  form.Password,
+			Rules: []Rule{MinLength(8)},
+		},
+		{
+			Tag:   "confirm_password",
+			Data:  form.ConfirmPassword,
+			Rules: []Rule{Same("Password", form.Password)},
+		},
+	}
+
+	err := Validate(validations)
+	if err != nil {
+		t.Error("valid data returned as invalid")
+		return
+	}
 }

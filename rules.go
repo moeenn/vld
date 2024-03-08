@@ -3,6 +3,7 @@ package vld
 import (
 	"errors"
 	"fmt"
+	"slices"
 	"strings"
 )
 
@@ -229,6 +230,29 @@ func DoesntEndWith(suffix string) Rule {
 		err := fmt.Errorf("The input must end with '%s'", suffix)
 		asString, ok := input.(string)
 		if !ok || strings.HasSuffix(asString, suffix) {
+			return err
+		}
+		return nil
+	}
+}
+
+// Same check if the provided input is the same as the required input.
+func Same(targetName string, targetValue any) Rule {
+	return func(input any) error {
+		err := fmt.Errorf("The input must be the same as '%s'", targetName)
+		if targetValue != input {
+			return err
+		}
+		return nil
+	}
+}
+
+// Enum check if the provided input matches any of the listed enumerations values
+func Enum(enumValues ...string) Rule {
+	return func(input any) error {
+		err := fmt.Errorf("The input must match values %s", strings.Join(enumValues, ", "))
+		asString, ok := input.(string)
+		if !ok || !slices.Contains(enumValues, asString) {
 			return err
 		}
 		return nil
