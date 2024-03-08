@@ -297,3 +297,18 @@ func Regexp(pattern string) Rule {
 		return nil
 	}
 }
+
+// UUID check if the provided input is a valid string and a valid UUID.
+func UUID(input any) error {
+	err := errors.New("The input must be a valid UUID string")
+	asString, ok := input.(string)
+	if !ok {
+		return err
+	}
+
+	match, errMatch := regexp.MatchString(PATTERN_UUID, asString)
+	if errMatch != nil || !match {
+		return err
+	}
+	return nil
+}

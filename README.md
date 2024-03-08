@@ -15,7 +15,7 @@ A data validation library for GoLang.
 - [x] Less than Int
 - [x] Greater than Int
 - [x] Email
-- [ ] UUID
+- [x] UUID
 - [x] URL
 - [ ] Date
 - [ ] Time

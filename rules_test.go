@@ -775,3 +775,31 @@ func TestRegexpInvalidInputType(t *testing.T) {
 		return
 	}
 }
+
+/**
+ * Rule: UUID
+ *
+ */
+func TestUUIDValidInput(t *testing.T) {
+	err := UUID("1b810d1a-0f3b-4bff-86fe-039258c5b20e")
+	if err != nil {
+		t.Errorf(errInvalidPassed)
+		return
+	}
+}
+
+func TestUUIDInvalidInput(t *testing.T) {
+	err := UUID("some.random-string.not-uuid")
+	if err == nil {
+		t.Error(errInvalidPassed)
+		return
+	}
+}
+
+func TestUUIDInvalidInputType(t *testing.T) {
+	err := UUID(true)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}
