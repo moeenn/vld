@@ -747,3 +747,31 @@ func TestURLInvalidInputType(t *testing.T) {
 		return
 	}
 }
+
+/**
+ * Rule: Regexp
+ *
+ */
+func TestRegexpValidInput(t *testing.T) {
+	err := Regexp("^[a-z0-9_-]{3,16}$")("random_alpha_321")
+	if err != nil {
+		t.Errorf(errValidFailed, err.Error())
+		return
+	}
+}
+
+func TestRegexpInvalidInput(t *testing.T) {
+	err := Regexp("^hello$")("another")
+	if err == nil {
+		t.Error(errInvalidPassed)
+		return
+	}
+}
+
+func TestRegexpInvalidInputType(t *testing.T) {
+	err := Regexp("^[a-z0-9]+(?:-[a-z0-9]+)*$")(500_30.22)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}

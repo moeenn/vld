@@ -31,8 +31,10 @@ A data validation library for GoLang.
 - [ ] Password (???)
 - [ ] Base64
 - [ ] JSON
-- [ ] Regex
+- [x] Regex
 - [x] Same
 - [ ] Array (???)
 - [ ] Min items
 - [ ] Max items
+- [ ] Alphanumeric string
+- [ ] Slug

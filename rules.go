@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"regexp"
 	"slices"
 	"strings"
 )
@@ -174,11 +175,15 @@ func LessThanInt(limit int) Rule {
 }
 
 // Email check if the provide input is a valid email address.
-// TODO: consider using a simple regex pattern for validation
 func Email(input any) error {
 	err := errors.New("Please provide a valid email address")
 	asString, ok := input.(string)
-	if !ok || !strings.Contains(asString, "@") {
+	if !ok {
+		return err
+	}
+
+	match, errMatch := regexp.MatchString(PATTERN_EMAIL, asString)
+	if errMatch != nil || match == false {
 		return err
 	}
 
@@ -273,4 +278,22 @@ func URL(input any) error {
 		return err
 	}
 	return nil
+}
+
+// Regexp check if the provided input is a valid string and matches the required
+// regular expression.
+func Regexp(pattern string) Rule {
+	return func(input any) error {
+		err := errors.New("The input doesn't match the required pattern")
+		asString, ok := input.(string)
+		if !ok {
+			return err
+		}
+
+		match, errMatch := regexp.MatchString(pattern, asString)
+		if errMatch != nil || !match {
+			return err
+		}
+		return nil
+	}
 }
