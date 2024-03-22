@@ -861,3 +861,115 @@ func TestJSONInvalidInputType(t *testing.T) {
 		return
 	}
 }
+
+func TestISODateValidInput(t *testing.T) {
+	inputs := []string{
+		"2024-03-22T12:35:05.115Z",
+		"2024-03-22T05:11:09.762Z",
+		"2024-03-20T10:17:40.521Z",
+	}
+
+	for _, input := range inputs {
+		err := ISODate(input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+		}
+	}
+}
+
+func TestISODateInvalidInput(t *testing.T) {
+	inputs := []string{
+		"2020-10-15",
+		"2024-15-22T05:11:09.762Z",
+		"2024-03-40T10:17:40.521Z",
+	}
+
+	for _, input := range inputs {
+		err := ISODate(input)
+		if err == nil {
+			t.Error(errInvalidPassed)
+		}
+	}
+}
+
+func TestISODateInvalidInputType(t *testing.T) {
+	err := ISODate(30.44)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+	}
+}
+
+func TestDateValidInput(t *testing.T) {
+	inputs := []string{
+		"2024-03-22",
+		"2024-02-29",
+		"1970-01-01",
+	}
+
+	for _, input := range inputs {
+		err := Date(input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+		}
+	}
+}
+
+func TestDateInvalidInput(t *testing.T) {
+	inputs := []string{
+		"2020/10/15",
+		"2024-43-22",
+		"2020-02-30",
+		"2024-03-10T10:17:40.521Z",
+	}
+
+	for _, input := range inputs {
+		err := Date(input)
+		if err == nil {
+			t.Error(errInvalidPassed)
+		}
+	}
+}
+
+func TestDateInvalidInputType(t *testing.T) {
+	err := Date(false)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+	}
+}
+
+func TestTimeValidInput(t *testing.T) {
+	inputs := []string{
+		"11:30:00",
+		//"02:15 AM",
+		"15:00:00",
+	}
+
+	for _, input := range inputs {
+		err := Date(input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+		}
+	}
+}
+
+func TestTimeInvalidInput(t *testing.T) {
+	inputs := []string{
+		"25:00:00",
+		"10:70:00",
+		"2024-03-10T10:17:40.521Z",
+	}
+
+	for _, input := range inputs {
+		err := Time(input)
+		if err == nil {
+			t.Error(errInvalidPassed)
+		}
+	}
+}
+
+func TestTimeInvalidInputType(t *testing.T) {
+	err := Time(true)
+	if err == nil {
+		t.Error(errInvalidTypePassed)
+	}
+}

@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+	"time"
 )
 
 // NonEmptyString check if provided input is a non-empty string.
@@ -344,6 +345,54 @@ func JSON(input any) error {
 	var target any
 	errUnmarshal := json.Unmarshal([]byte(asString), &target)
 	if errUnmarshal != nil {
+		return err
+	}
+	return nil
+}
+
+// ISODate check if the provided input is a valid string and a valid ISO
+// timestamp according to RFC3339: [Link](https://pkg.go.dev/time#pkg-constants).
+func ISODate(input any) error {
+	err := errors.New("Please provide a valid date time string")
+	asString, ok := input.(string)
+	if !ok {
+		return err
+	}
+
+	_, parseErr := time.Parse(time.RFC3339, asString)
+	if parseErr != nil {
+		return err
+	}
+	return nil
+}
+
+// Date check if the provided input is a valid string and a valid date-only
+// string. [Link](https://pkg.go.dev/time#pkg-constants).
+func Date(input any) error {
+	err := errors.New("Please provide a valid date")
+	asString, ok := input.(string)
+	if !ok {
+		return err
+	}
+
+	_, parseErr := time.Parse(time.DateOnly, asString)
+	if parseErr != nil {
+		return err
+	}
+	return nil
+}
+
+// Time check if the provided input is a valid string and a valid time-only
+// string. [Link](https://pkg.go.dev/time#pkg-constants).
+func Time(input any) error {
+	err := errors.New("Please provide a valid time")
+	asString, ok := input.(string)
+	if !ok {
+		return err
+	}
+
+	_, parseErr := time.Parse(time.TimeOnly, asString)
+	if parseErr != nil {
 		return err
 	}
 	return nil

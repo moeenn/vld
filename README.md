@@ -17,6 +17,7 @@ A data validation library for GoLang.
 - [x] Email
 - [x] UUID
 - [x] URL
+- [x] ISODate
 - [ ] Date
 - [ ] Time
 - [ ] Before date
