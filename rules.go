@@ -367,7 +367,8 @@ func ISODate(input any) error {
 }
 
 // Date check if the provided input is a valid string and a valid date-only
-// string. [Link](https://pkg.go.dev/time#pkg-constants).
+// string. Date string must be in format e.g. 2023-10-05
+// [Link](https://pkg.go.dev/time#pkg-constants).
 func Date(input any) error {
 	err := errors.New("Please provide a valid date")
 	asString, ok := input.(string)
@@ -383,7 +384,8 @@ func Date(input any) error {
 }
 
 // Time check if the provided input is a valid string and a valid time-only
-// string. [Link](https://pkg.go.dev/time#pkg-constants).
+// string. Time string must be in 24-hours format: e.g. 10:20:00
+// [Link](https://pkg.go.dev/time#pkg-constants).
 func Time(input any) error {
 	err := errors.New("Please provide a valid time")
 	asString, ok := input.(string)

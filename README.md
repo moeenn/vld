@@ -18,8 +18,8 @@ A data validation library for GoLang.
 - [x] UUID
 - [x] URL
 - [x] ISODate
-- [ ] Date
-- [ ] Time
+- [x] Date
+- [x] Time
 - [ ] Before date
 - [ ] Before or equal to date
 - [ ] After date
@@ -30,7 +30,6 @@ A data validation library for GoLang.
 - [x] Doesn't end with
 - [x] Enum
 - [x] Password
-- [ ] Base64
 - [x] JSON
 - [x] Regex
 - [x] Same

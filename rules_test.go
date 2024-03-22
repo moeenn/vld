@@ -940,12 +940,11 @@ func TestDateInvalidInputType(t *testing.T) {
 func TestTimeValidInput(t *testing.T) {
 	inputs := []string{
 		"11:30:00",
-		//"02:15 AM",
 		"15:00:00",
 	}
 
 	for _, input := range inputs {
-		err := Date(input)
+		err := Time(input)
 		if err != nil {
 			t.Errorf(errValidFailed, err.Error())
 		}
@@ -956,6 +955,7 @@ func TestTimeInvalidInput(t *testing.T) {
 	inputs := []string{
 		"25:00:00",
 		"10:70:00",
+		"02:15:00 AM",
 		"2024-03-10T10:17:40.521Z",
 	}
 
