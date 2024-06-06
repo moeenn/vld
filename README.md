@@ -98,7 +98,7 @@ v.MaxLength(20)
 
 - [x] MinFloat: The input floating-point number must be equal or more than the provided limit.
 
-```
+```go
 // input number must be at least 5.0 or more
 v.MinFloat(5.0)
 ```
@@ -316,17 +316,17 @@ type ExampleForm struct {
 	Slug string
 }
 
-func Slug(input any) error {
+func Slug(input any) (any, error) {
 	err := errors.New("The input must be a valid slug")
 	asString, ok := input.(string)
 	if !ok {
-		return err
+		return nil, err
 	}
 
 	if strings.Contains(asString, "_") {
-		return err
+		return nil, err
 	}
-	return nil
+	return asString, nil
 }
 
 func main() {
@@ -338,7 +338,7 @@ func main() {
 		{
 			Tag:   "slug",
 			Data:  form.Slug,
-			Rules: []v.Rule{v.NonEmptyString, Slug}, // notice the user-defined validator
+			Rules: []v.Rule{v.NonEmptyString, Slug}, // notice the user-defined rule
 		},
 	}
 
@@ -358,13 +358,13 @@ If the custom validator function required additional arguments, they can be defi
 
 ```go
 func StartsWith(prefix string) Rule {
-	return func(input any) error {
+	return func(input any) (any, error) {
 		err := fmt.Errorf("The input must start with '%s'", prefix)
 		asString, ok := input.(string)
 		if !ok || !strings.HasPrefix(asString, prefix) {
-			return err
+			return nil, err
 		}
-		return nil
+		return asString, nil
 	}
 }
 ```

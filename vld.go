@@ -1,6 +1,6 @@
 package vld
 
-type Rule func(any) error
+type Rule func(any) (any, error)
 
 type Validation struct {
 	Tag   string
@@ -26,8 +26,11 @@ func Validate(validations []Validation) error {
 			continue
 		}
 
+		data := validation.Data
+		var err error
+
 		for _, rule := range validation.Rules {
-			err := rule(validation.Data)
+			data, err = rule(data)
 			if err != nil {
 				errors.Errors[validation.Tag] = err.Error()
 			}
