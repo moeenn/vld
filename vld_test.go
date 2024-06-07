@@ -22,7 +22,7 @@ func TestLoginFormExample(t *testing.T) {
 		{
 			Tag:   "password",
 			Data:  form.Password,
-			Rules: []Rule{NonEmptyString, MinLength(8)},
+			Rules: []Rule{NonEmptyString, Min(8)},
 		},
 	}
 
@@ -46,7 +46,7 @@ func TestResetPasswordExample(t *testing.T) {
 		{
 			Tag:   "password",
 			Data:  form.Password,
-			Rules: []Rule{MinLength(8)},
+			Rules: []Rule{Min(8)},
 		},
 		{
 			Tag:   "confirm_password",

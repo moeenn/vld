@@ -52,7 +52,7 @@ func main() {
 		{
 			Tag:   "password",
 			Data:  form.Password,
-			Rules: []v.Rule{v.NonEmptyString, v.MinLength(8)},
+			Rules: []v.Rule{v.NonEmptyString, v.Min(8)},
 		},
 	}
 
@@ -82,11 +82,12 @@ v.NonEmptyString
 v.Length(10)
 ```
 
-- [x] MinLength: The input string length must be equal or more than the provided length.
+- [x] Min: The input string length must be equal or more than the provided length.
 
 ```go
 // input string must be 5 characters or more in length
-v.MinLength(5)
+// input int / float must be greater than 5
+v.Min(5)
 ```
 
 - [x] MaxLength: The input string length must be equal or less than the provided length.
@@ -215,6 +216,10 @@ v.Time
 - [ ] After date: TODO
 
 - [ ] After or equal to date: TODO
+
+- [ ] Before time: TODO
+
+- [ ] Before or equal to time: TODO
 
 - [x] StartsWith: The input string must begin with the provided prefix.
 

@@ -13,10 +13,9 @@ import (
 
 // NonEmptyString check if provided input is a non-empty string.
 func NonEmptyString(input any) (any, error) {
-	err := errors.New("Please provide a non-empty string")
 	asString, ok := input.(string)
 	if !ok || asString == "" {
-		return nil, err
+		return nil, errors.New("Please provide a non-empty string")
 	}
 
 	return asString, nil
@@ -36,90 +35,143 @@ func Length(length int) Rule {
 	}
 }
 
-// MinLength check if provided input is a string and its length is more than
-// or equal to the provided length.
-func MinLength(length int) Rule {
+// Min if the provided number is an int / float(64), check input is greater than
+// or equal to the target. If the provided input is a string, check its length
+// is more than or equal to the target.
+func Min(target any) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("The value must be %d characters or more in length", length)
-		asString, ok := input.(string)
-		if !ok || len(asString) < length {
-			return nil, err
+		targetAsInt, okTargetIntCast := target.(int)
+		targetAsFloat, okTargetFloatCast := target.(float64)
+
+		if !okTargetIntCast && !okTargetFloatCast {
+			return nil, errors.New("invalid target type provided")
 		}
 
-		return asString, nil
+		asInt, okIntCast := input.(int)
+		if okIntCast {
+			if okTargetIntCast {
+				if asInt < targetAsInt {
+					return nil, fmt.Errorf("number must be greater than %d", target)
+				}
+				return asInt, nil
+			}
+
+			if okTargetFloatCast {
+				if float64(asInt) < targetAsFloat {
+					return nil, fmt.Errorf("number must be greater than %d", target)
+				}
+				return asInt, nil
+			}
+		}
+
+		asFloat, okFloatCast := input.(float64)
+		if okFloatCast {
+			if okTargetIntCast {
+				if asFloat < float64(targetAsInt) {
+					return nil, fmt.Errorf("number must be greater than %d", target)
+				}
+				return asFloat, nil
+			}
+
+			if okTargetFloatCast {
+				if asFloat < targetAsFloat {
+					return nil, fmt.Errorf("number must be greater than %d", target)
+				}
+				return asFloat, nil
+			}
+		}
+
+		asString, okStringCast := input.(string)
+		if okStringCast {
+			if okTargetIntCast {
+				if len(asString) < targetAsInt {
+					return nil, fmt.Errorf("length must be more than %d characters", target)
+				}
+				return asString, nil
+			}
+
+			if okTargetFloatCast {
+				return nil, errors.New("string length cannot be a floating point number")
+			}
+		}
+
+		if !okIntCast && !okFloatCast && !okStringCast {
+			return nil, errors.New("invalid data type provided")
+		}
+
+		return nil, nil
 	}
 }
 
-// MaxLength check if provided input is a string and its length is less than or
-// equal to the provided length.
-func MaxLength(length int) Rule {
+// Max if the provided number is an int / float(64), check input is less than
+// or equal to the target. If the provided input is a string, check its length
+// is less than or equal to the target.
+func Max(target any) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("The value must be %d characters or less in length", length)
-		asString, ok := input.(string)
-		if !ok || len(asString) > length {
-			return nil, err
+		targetAsInt, okTargetIntCast := target.(int)
+		targetAsFloat, okTargetFloatCast := target.(float64)
+
+		if !okTargetIntCast && !okTargetFloatCast {
+			return nil, errors.New("invalid target type provided")
 		}
 
-		return asString, nil
+		asInt, okIntCast := input.(int)
+		if okIntCast {
+			if okTargetIntCast {
+				if asInt > targetAsInt {
+					return nil, fmt.Errorf("number must be less than %d", target)
+				}
+				return asInt, nil
+			}
+
+			if okTargetFloatCast {
+				if float64(asInt) > targetAsFloat {
+					return nil, fmt.Errorf("number must be less than %d", target)
+				}
+				return asInt, nil
+			}
+		}
+
+		asFloat, okFloatCast := input.(float64)
+		if okFloatCast {
+			if okTargetIntCast {
+				if asFloat > float64(targetAsInt) {
+					return nil, fmt.Errorf("number must be less than %d", target)
+				}
+				return asFloat, nil
+			}
+
+			if okTargetFloatCast {
+				if asFloat > targetAsFloat {
+					return nil, fmt.Errorf("number must be less than %d", target)
+				}
+				return asFloat, nil
+			}
+		}
+
+		asString, okStringCast := input.(string)
+		if okStringCast {
+			if okTargetIntCast {
+				if len(asString) > targetAsInt {
+					return nil, fmt.Errorf("length must be less than %d characters", target)
+				}
+				return asString, nil
+			}
+
+			if okTargetFloatCast {
+				return nil, errors.New("string length cannot be a floating point number")
+			}
+		}
+
+		if !okIntCast && !okFloatCast && !okStringCast {
+			return nil, errors.New("invalid data type provided")
+		}
+
+		return nil, nil
 	}
 }
 
-// MinFloat check if provided input is a number and its value is less than or
-// equal to the provided limit.
-func MinFloat(limit float64) Rule {
-	return func(input any) (any, error) {
-		err := fmt.Errorf("The value must be more than or equal to %f", limit)
-		asNum, ok := input.(float64)
-		if !ok || asNum < limit {
-			return nil, err
-		}
-
-		return asNum, nil
-	}
-}
-
-// MaxFloat check if provided input is a number and its value is more than or
-// equal to the provided limit.
-func MaxFloat(limit float64) Rule {
-	return func(input any) (any, error) {
-		err := fmt.Errorf("The value must be less than or equal to %f", limit)
-		asNum, ok := input.(float64)
-		if !ok || asNum > limit {
-			return nil, err
-		}
-
-		return asNum, nil
-	}
-}
-
-// MinInt check if provided input is a number and its value is less than or
-// equal to the provided limit.
-func MinInt(limit int) Rule {
-	return func(input any) (any, error) {
-		err := fmt.Errorf("The value must be more than or equal to %d", limit)
-		asNum, ok := input.(int)
-		if !ok || asNum < limit {
-			return nil, err
-		}
-
-		return asNum, nil
-	}
-}
-
-// MaxInt check if provided input is a number and its value is more than or
-// equal to the provided limit.
-func MaxInt(limit int) Rule {
-	return func(input any) (any, error) {
-		err := fmt.Errorf("The value must be less than or equal to %d", limit)
-		asNum, ok := input.(int)
-		if !ok || asNum > limit {
-			return nil, err
-		}
-
-		return asNum, nil
-	}
-}
-
+// TODO: merge with GreaterThanInt
 // GreaterThanFloat check if provided input is a number and its value is greater
 // than but not equal to the provided limit.
 func GreaterThanFloat(limit float64) Rule {
@@ -134,6 +186,7 @@ func GreaterThanFloat(limit float64) Rule {
 	}
 }
 
+// TODO: merge with LessThanInt
 // LessThanFloat check if provided input is a number and its value is less than
 // but not equal to the provided limit.
 func LessThanFloat(limit float64) Rule {
@@ -350,6 +403,7 @@ func JSON(input any) (any, error) {
 	return asString, nil
 }
 
+// TODO: merge with Date
 // ISODate check if the provided input is a valid string and a valid ISO
 // timestamp according to RFC3339: [Link](https://pkg.go.dev/time#pkg-constants).
 func ISODate(input any) (any, error) {
@@ -399,3 +453,8 @@ func Time(input any) (any, error) {
 	}
 	return asTime, nil
 }
+
+// TODO: Rule: Positive, negative
+// TODO: Rule: Between range
+// TODO: Rule: Latitude, longitude
+// TODO: Rule: Number, int, float

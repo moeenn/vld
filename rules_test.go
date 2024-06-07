@@ -86,38 +86,58 @@ func TestLengthInvalidType(t *testing.T) {
 }
 
 /**
- * Rule: MinLength
+ * Rule: Min
  *
  */
-func TestMinLengthValid(t *testing.T) {
-	_, err := MinLength(8)("q1w2e3r4t5")
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+func TestMinValidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
 	}
 
-	v, err := MinLength(4)("q1w2")
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+	testCases := []testCase{
+		{input: 50, target: 10},
+		{input: 50, target: 8.5},
+		{input: 20.55, target: 10},
+		{input: 20.55, target: 8.5},
+		{input: "Hello world", target: 10},
 	}
 
-	if _, ok := v.(string); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestMinLengthInvalidInput(t *testing.T) {
-	_, err := MinLength(8)("q1w2e3")
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
+	for _, testCase := range testCases {
+		_, err := Min(testCase.target)(testCase.input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
 	}
 }
 
-func TestMinLengthInvalidTypeInput(t *testing.T) {
-	_, err := MinLength(8)(true)
+func TestMinInvalidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
+	}
+
+	testCases := []testCase{
+		{input: 50, target: 100},
+		{input: 50, target: 80.5},
+		{input: 20.55, target: 100},
+		{input: 20.55, target: 80.5},
+		{input: "Hello world", target: 20},
+	}
+
+	for _, testCase := range testCases {
+		_, err := Min(testCase.target)(testCase.input)
+		if err == nil {
+			t.Errorf(errInvalidPassed)
+			return
+		}
+	}
+}
+
+func TestMinInvalidTypeInput(t *testing.T) {
+	// TODO: add more test-cases
+	_, err := Min(8)(true)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 		return
@@ -125,242 +145,58 @@ func TestMinLengthInvalidTypeInput(t *testing.T) {
 }
 
 /**
- * Rule: MaxLength
+ * Rule: Max
  *
  */
-func TestMaxLengthValid(t *testing.T) {
-	_, err := MaxLength(8)("q1w2e3r4")
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+func TestMaxValidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
 	}
 
-	v, err := MaxLength(4)("q1w")
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+	testCases := []testCase{
+		{input: 50, target: 100},
+		{input: 50.23, target: 80.5},
+		{input: 20.55, target: 100},
+		{input: 20.55, target: 800.5},
+		{input: "Hello world", target: 20},
 	}
 
-	if _, ok := v.(string); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestMaxLengthInvalidInput(t *testing.T) {
-	_, err := MaxLength(8)("q1w2e3r4t5")
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
+	for _, testCase := range testCases {
+		_, err := Max(testCase.target)(testCase.input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
 	}
 }
 
-func TestMaxLengthInvalidType(t *testing.T) {
-	_, err := MaxLength(8)(false)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
+func TestMaxInvalidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
+	}
+
+	testCases := []testCase{
+		{input: 20, target: 10},
+		{input: 50.56, target: 30.5},
+		{input: 25, target: 10.5},
+		{input: 20.55, target: 10},
+		{input: "Hello world", target: 10},
+	}
+
+	for _, testCase := range testCases {
+		_, err := Max(testCase.target)(testCase.input)
+		if err == nil {
+			t.Errorf(errInvalidPassed)
+			return
+		}
 	}
 }
 
-/**
- * Rule: MinFloat
- *
- */
-func TestMinFloatValid(t *testing.T) {
-	v, err := MinFloat(0)(0.0)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	_, err = MinFloat(-100.0)(50.5)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	if _, ok := v.(float64); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestMinFloatInvalidInput(t *testing.T) {
-	_, err := MinFloat(10.4)(2.6)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = MinFloat(-50.333)(-80.3)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-}
-
-func TestMinFloatInvalidTypeInput(t *testing.T) {
-	_, err := MinFloat(20.0)("random")
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-
-	_, err = MinFloat(200.6)(170)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-}
-
-/**
- * Rule: MaxFloat
- *
- */
-func TestMaxFloatValid(t *testing.T) {
-	v, err := MaxFloat(10.0)(10.0)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	_, err = MaxFloat(-100.0)(-200.5)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	if _, ok := v.(float64); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestMaxFloatInvalidInput(t *testing.T) {
-	_, err := MaxFloat(2.6)(10.666)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = MaxFloat(-50.333)(-30.3)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-}
-
-func TestMaxFloatInvalidTypeInput(t *testing.T) {
-	_, err := MaxFloat(20.0)("random")
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-
-	_, err = MaxFloat(200.6)(170)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-}
-
-/**
- * Rule: MinInt
- *
- */
-func TestMinIntValid(t *testing.T) {
-	v, err := MinInt(10)(20)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	_, err = MinInt(-200)(50)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	if _, ok := v.(int); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestMinIntInvalidInput(t *testing.T) {
-	_, err := MinInt(10)(2)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = MinInt(-50)(-90)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-}
-
-func TestMinIntInvalidTypeInput(t *testing.T) {
-	_, err := MinInt(20)(false)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-
-	_, err = MinInt(-200)(-270.75)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-}
-
-/**
- * Rule: MaxInt
- *
- */
-func TestMaxIntValid(t *testing.T) {
-	v, err := MaxInt(10)(10)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	_, err = MaxInt(-100)(-200)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	if _, ok := v.(int); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestMaxIntInvalidInput(t *testing.T) {
-	_, err := MaxInt(2)(10)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = MaxInt(-50)(-30)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-}
-
-func TestMaxIntInvalidTypeInput(t *testing.T) {
-	_, err := MaxInt(20)(10.66666)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-
-	_, err = MaxInt(200)("random")
+func TestMaxInvalidType(t *testing.T) {
+	// TODO: add more test-cases
+	_, err := Max(8)(false)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 		return
