@@ -125,18 +125,11 @@ v.MinInt(100)
 v.MaxInt(200)
 ```
 
-- [x] LessThanFloat: The input floating-point number must be less than the provided limit.
-
-```go
-// input number must be less than 20.0 (non-inclusive)
-v.LessThanFloat(20.0)
-```
-
-- [x] GreaterThanFloat: The input floating-point number must be greater than the provided limit.
+- [x] GreaterThan: The input floating-point number must be greater than the provided limit.
 
 ```go
 // input number must be greater than 10.5 (non-inclusive)
-v.GreaterThanFloat(10.5)
+v.GreaterThan(10.5)
 ```
 
 - [x] LessThanInt: The input integer number must be less than the provided limit.

@@ -136,7 +136,6 @@ func TestMinInvalidInputs(t *testing.T) {
 }
 
 func TestMinInvalidTypeInput(t *testing.T) {
-	// TODO: add more test-cases
 	_, err := Min(8)(true)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
@@ -195,7 +194,6 @@ func TestMaxInvalidInputs(t *testing.T) {
 }
 
 func TestMaxInvalidType(t *testing.T) {
-	// TODO: add more test-cases
 	_, err := Max(8)(false)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
@@ -204,50 +202,57 @@ func TestMaxInvalidType(t *testing.T) {
 }
 
 /**
- * Rule: LessThanInt
+ * Rule: LessThan
  *
  */
-func TestLessThanIntValid(t *testing.T) {
-	v, err := LessThanInt(11)(10)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+func TestLessThanValidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
 	}
 
-	_, err = LessThanInt(-90)(-100)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+	testCases := []testCase{
+		{input: 50, target: 400},
+		{input: 50.23, target: 80.5},
+		{input: 20.55, target: 100},
+		{input: 20.55, target: 50.5},
+		{input: "Hello world", target: 20},
 	}
 
-	if _, ok := v.(int); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestLessThanIntInvalidInput(t *testing.T) {
-	_, err := LessThanInt(-3000)(2)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = LessThanInt(-80)(-50)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
+	for _, testCase := range testCases {
+		_, err := LessThan(testCase.target)(testCase.input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
 	}
 }
 
-func TestLessThanIntInvalidTypeInput(t *testing.T) {
-	_, err := LessThanInt(30)(20.66666)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
+func TestLessThanInvalidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
 	}
 
-	_, err = LessThanInt(200)("random")
+	testCases := []testCase{
+		{input: 20, target: 10},
+		{input: 50.56, target: 30.5},
+		{input: 25, target: 10.5},
+		{input: 20.55, target: 10},
+		{input: "Hello world", target: 5},
+	}
+
+	for _, testCase := range testCases {
+		_, err := LessThan(testCase.target)(testCase.input)
+		if err == nil {
+			t.Errorf(errInvalidPassed)
+			return
+		}
+	}
+}
+
+func TestLessThanInvalidType(t *testing.T) {
+	_, err := LessThan(8)(false)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 		return
@@ -255,152 +260,57 @@ func TestLessThanIntInvalidTypeInput(t *testing.T) {
 }
 
 /**
- * Rule: LessThanFloat
+ * Rule: GreaterThan
  *
  */
-func TestLessThanFloatValid(t *testing.T) {
-	v, err := LessThanFloat(200.5)(10.66)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+func TestGreaterThanValidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
 	}
 
-	_, err = LessThanFloat(-90.55)(-100.58585)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+	testCases := []testCase{
+		{input: 20, target: 10},
+		{input: 50.56, target: 30.5},
+		{input: 25, target: 10.5},
+		{input: 20.55, target: 10},
+		{input: "Hello world", target: 5},
 	}
 
-	if _, ok := v.(float64); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestLessThanFloatInvalidInput(t *testing.T) {
-	_, err := LessThanFloat(-3000.21)(24.44)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = LessThanFloat(-80.31231)(-50.6554)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
+	for _, testCase := range testCases {
+		_, err := GreaterThan(testCase.target)(testCase.input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
 	}
 }
 
-func TestLessThanFloatInvalidTypeInput(t *testing.T) {
-	_, err := LessThanFloat(30.55)(20)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
+func TestGreaterThanInvalidInputs(t *testing.T) {
+	type testCase struct {
+		input  any
+		target any
 	}
 
-	_, err = LessThanFloat(200.6575)("random")
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-}
-
-/**
- * Rule: GreaterThanInt
- *
- */
-func TestGreaterThanIntValid(t *testing.T) {
-	v, err := GreaterThanInt(10)(11)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
+	testCases := []testCase{
+		{input: 50, target: 400},
+		{input: 50.23, target: 80.5},
+		{input: 20.55, target: 100},
+		{input: 20.55, target: 50.5},
+		{input: "Hello world", target: 20},
 	}
 
-	_, err = GreaterThanInt(-100)(-90)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	if _, ok := v.(int); !ok {
-		t.Error(errInvalidReturnType)
-		return
+	for _, testCase := range testCases {
+		_, err := GreaterThan(testCase.target)(testCase.input)
+		if err == nil {
+			t.Errorf(errInvalidPassed)
+			return
+		}
 	}
 }
 
-func TestGreaterThanIntInvalidInput(t *testing.T) {
-	_, err := GreaterThanInt(2)(-3000)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = GreaterThanInt(-50)(-80)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-}
-
-func TestGreaterThanIntInvalidTypeInput(t *testing.T) {
-	_, err := GreaterThanInt(20)(30.66666)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-
-	_, err = GreaterThanInt(200)("random")
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-}
-
-/**
- * Rule: GreaterThanFloat
- *
- */
-func TestGreaterThanFloatValid(t *testing.T) {
-	v, err := GreaterThanFloat(10.66)(200.5)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	_, err = GreaterThanFloat(-100.58585)(-90.54)
-	if err != nil {
-		t.Errorf(errValidFailed, err.Error())
-		return
-	}
-
-	if _, ok := v.(float64); !ok {
-		t.Error(errInvalidReturnType)
-		return
-	}
-}
-
-func TestGreaterThanFloatInvalidInput(t *testing.T) {
-	_, err := GreaterThanFloat(2.44)(-3000.21)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-
-	_, err = GreaterThanFloat(-50.678)(-80.31231)
-	if err == nil {
-		t.Error(errInvalidPassed)
-		return
-	}
-}
-
-func TestGreaterThanFloatInvalidTypeInput(t *testing.T) {
-	_, err := GreaterThanFloat(20.55)(30)
-	if err == nil {
-		t.Error(errInvalidTypePassed)
-		return
-	}
-
-	_, err = GreaterThanFloat(200.6575)("random")
+func TestGreaterThanInvalidType(t *testing.T) {
+	_, err := GreaterThan(8)(false)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 		return
@@ -821,10 +731,10 @@ func TestJSONInvalidInputType(t *testing.T) {
 }
 
 /**
- * Rule: ISODate
+ * Rule: DateTime
  *
  */
-func TestISODateValidInput(t *testing.T) {
+func TestDateTimeValidInput(t *testing.T) {
 	inputs := []string{
 		"2024-03-22T12:35:05.115Z",
 		"2024-03-22T05:11:09.762Z",
@@ -832,7 +742,7 @@ func TestISODateValidInput(t *testing.T) {
 	}
 
 	for _, input := range inputs {
-		v, err := ISODate(input)
+		v, err := DateTime(input)
 		if err != nil {
 			t.Errorf(errValidFailed, err.Error())
 		}
@@ -844,7 +754,7 @@ func TestISODateValidInput(t *testing.T) {
 	}
 }
 
-func TestISODateInvalidInput(t *testing.T) {
+func TestDateTimeInvalidInput(t *testing.T) {
 	inputs := []string{
 		"2020-10-15",
 		"2024-15-22T05:11:09.762Z",
@@ -852,15 +762,15 @@ func TestISODateInvalidInput(t *testing.T) {
 	}
 
 	for _, input := range inputs {
-		_, err := ISODate(input)
+		_, err := DateTime(input)
 		if err == nil {
 			t.Error(errInvalidPassed)
 		}
 	}
 }
 
-func TestISODateInvalidInputType(t *testing.T) {
-	_, err := ISODate(30.44)
+func TestDateTimeInvalidInputType(t *testing.T) {
+	_, err := DateTime(30.44)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 	}
