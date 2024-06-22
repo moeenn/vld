@@ -202,6 +202,8 @@ v.Date
 v.Time
 ```
 
+- [ ] DateEqual
+
 - [ ] Before date
 
 - [ ] Before or equal to date: TODO
@@ -298,6 +300,16 @@ func main() {
 	fmt.Println("validation successful")
 }
 ```
+
+- [ ] Positive: TODO
+
+- [ ] Negative: TODO
+
+- [ ] RangeBetween: TODO
+
+- [ ] Latitude: TODO
+
+- [ ] Longitude: TODO
 
 - [ ] Array: TODO
 
