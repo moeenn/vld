@@ -868,3 +868,109 @@ func TestTimeInvalidInputType(t *testing.T) {
 		t.Error(errInvalidTypePassed)
 	}
 }
+
+/**
+ * Rule: DateBefore
+ *
+ */
+func TestDateBeforeValidInput(t *testing.T) {
+	inputs := []time.Time{
+		time.Date(2023, 10, 23, 0, 0, 0, 0, time.UTC),
+		time.Date(2005, 1, 2, 0, 0, 0, 0, time.UTC),
+		time.Date(1970, 2, 5, 0, 0, 0, 0, time.UTC),
+		time.Date(1950, 1, 1, 0, 0, 0, 0, time.UTC),
+	}
+
+	v := DateBefore(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	for _, input := range inputs {
+		result, err := v(input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
+
+		if _, ok := result.(time.Time); !ok {
+			t.Error(errInvalidReturnType)
+			return
+		}
+	}
+}
+
+func TestDateBeforeInvalidInput(t *testing.T) {
+	inputs := []time.Time{
+		time.Date(2030, 10, 23, 0, 0, 0, 0, time.UTC),
+		time.Date(2050, 1, 2, 0, 0, 0, 0, time.UTC),
+		time.Date(3050, 2, 5, 0, 0, 0, 0, time.UTC),
+		time.Date(3000, 1, 1, 0, 0, 0, 0, time.UTC),
+	}
+
+	v := DateBefore(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	for _, input := range inputs {
+		_, err := v(input)
+		if err == nil {
+			t.Error(errInvalidPassed)
+			return
+		}
+	}
+}
+
+func TestDateBeforeInvalidInputType(t *testing.T) {
+	v := DateBefore(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	if _, err := v(false); err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}
+
+/**
+ * Rule: DateAfter
+ *
+ */
+func TestDateAfterValidInput(t *testing.T) {
+	inputs := []time.Time{
+		time.Date(2030, 10, 23, 0, 0, 0, 0, time.UTC),
+		time.Date(2050, 1, 2, 0, 0, 0, 0, time.UTC),
+		time.Date(3050, 2, 5, 0, 0, 0, 0, time.UTC),
+		time.Date(3000, 1, 1, 0, 0, 0, 0, time.UTC),
+	}
+
+	v := DateAfter(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	for _, input := range inputs {
+		result, err := v(input)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
+
+		if _, ok := result.(time.Time); !ok {
+			t.Error(errInvalidReturnType)
+			return
+		}
+	}
+}
+
+func TestDateAfterInvalidInput(t *testing.T) {
+	inputs := []time.Time{
+		time.Date(2023, 10, 23, 0, 0, 0, 0, time.UTC),
+		time.Date(2005, 1, 2, 0, 0, 0, 0, time.UTC),
+		time.Date(1970, 2, 5, 0, 0, 0, 0, time.UTC),
+		time.Date(1950, 1, 1, 0, 0, 0, 0, time.UTC),
+	}
+
+	v := DateAfter(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	for _, input := range inputs {
+		_, err := v(input)
+		if err == nil {
+			t.Error(errInvalidPassed)
+			return
+		}
+	}
+}
+
+func TestDateAfterInvalidInputType(t *testing.T) {
+	v := DateAfter(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	if _, err := v(nil); err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}

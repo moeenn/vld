@@ -202,11 +202,11 @@ v.Date
 v.Time
 ```
 
-- [ ] Before date: TODO
+- [ ] Before date
 
 - [ ] Before or equal to date: TODO
 
-- [ ] After date: TODO
+- [ ] After date
 
 - [ ] After or equal to date: TODO
 

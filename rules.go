@@ -531,6 +531,40 @@ func Time(input any) (any, error) {
 	return asTime, nil
 }
 
+// DateBefore check if the provided input is a date before the target date.
+func DateBefore(target time.Time) Rule {
+	return func(input any) (any, error) {
+		inputAsTime, ok := input.(time.Time)
+		if !ok {
+			return nil, errors.New("please provide a valid date")
+		}
+
+		delta := inputAsTime.Sub(target)
+		if delta > 0 {
+			return nil, errors.New("the provided date must be before " + target.String())
+		}
+
+		return inputAsTime, nil
+	}
+}
+
+// DateAfter check if the provided input is a date after the target date.
+func DateAfter(target time.Time) Rule {
+	return func(input any) (any, error) {
+		inputAsTime, ok := input.(time.Time)
+		if !ok {
+			return nil, errors.New("please provide a valid date")
+		}
+
+		delta := inputAsTime.Sub(target)
+		if delta < 0 {
+			return nil, errors.New("the provided date must be after " + target.String())
+		}
+
+		return inputAsTime, nil
+	}
+}
+
 // TODO: Rule: Positive, negative
 // TODO: Rule: Between range
 // TODO: Rule: Latitude, longitude
