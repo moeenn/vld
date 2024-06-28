@@ -99,19 +99,6 @@ func main() {
 |                           `Longitude` | Check if the provided input a valid map longitude value.                                                                                                                                                                              |
 
 
-
-
-- [ ] Before time: TODO
-
-- [ ] Before or equal to time: TODO
-
-- [ ] Array: TODO
-
-- [ ] MinItems: TODO
- 
-- [ ] MaxItems: TODO
-
-
 #### Custom validators
 In `vld` validators are plain functions. They can be defined as follows.
 
@@ -171,3 +158,12 @@ func StartsWith(prefix string) Rule {
 	}
 }
 ```
+
+
+#### TODO
+
+- [ ] Before time
+- [ ] Before or equal to time
+- Array
+	- [ ] MinItems 
+	- [ ] MaxItems
