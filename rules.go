@@ -324,7 +324,7 @@ func Email(input any) (any, error) {
 }
 
 // StartsWith check if the provided input is a valid string and starts with the
-// provided substring
+// provided substring.
 func StartsWith(prefix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must start with '%s'", prefix)
@@ -337,7 +337,7 @@ func StartsWith(prefix string) Rule {
 }
 
 // EndsWith check if the provided input is a valid string and ends with the
-// provided substring
+// provided substring.
 func EndsWith(suffix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must end with '%s'", suffix)
@@ -350,7 +350,7 @@ func EndsWith(suffix string) Rule {
 }
 
 // DoesntStartWith check if the provided input is a valid string and doesn't
-// starts with the provided substring
+// starts with the provided substring.
 func DoesntStartWith(prefix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must not start with '%s'", prefix)
@@ -363,7 +363,7 @@ func DoesntStartWith(prefix string) Rule {
 }
 
 // DoesntEndWith check if the provided input is a valid string and ends with the
-// provided substring
+// provided substring.
 func DoesntEndWith(suffix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must end with '%s'", suffix)

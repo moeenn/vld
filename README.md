@@ -69,237 +69,42 @@ func main() {
 
 
 #### Included validators
-- [x] NonEmptyString: The input must be valid non-empty string value.
 
-```go
-v.NonEmptyString
-```
+|                             Validator | Description                                                                                                                                                                                                                           |
+| ------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|                      `NonEmptyString` | Check if provided input is a non-empty string                                                                                                                                                                                         |
+|                         `Length(int)` | Check if the provided input is a string and its length is equal to the provided length.                                                                                                                                               |
+|         `Min(int \| float \| string)` | If the provided number is an `int` / `float(64)`, check input is greater than or equal to the target. If the provided input is a `string`, check its length is more than or equal to the target.                                      |
+|         `Max(int \| float \| string)` | If the provided number is an `int` / `float(64)`, check input is less than or equal to the target. If the provided input is a `string`, check its length is less than or equal to the target.                                         |
+| `GreaterThan(int \| float \| string)` | If the provided number is an `int` / `float(64)`, check input is more than (but not equal) to the target. If the provided input is a `string`, check its length is more than (but not equal) to the target.                           |
+|    `LessThan(int \| float \| string)` | If the provided number is an `int` / `float(64)`, check input is less than (but not equal) to the target. If the provided input is a `string`, check its length is less than (but not equal) to the target.                           |
+|                               `Email` | Check if the provide input is a valid email address                                                                                                                                                                                   |
+|                  `StartsWith(string)` | Check if the provided input is a valid string and starts with the provided substring.                                                                                                                                                 |
+|             `DoesntStartWith(string)` | Check if the provided input is a valid string and doesn't starts with the provided substring.                                                                                                                                         |
+|                    `EndsWith(string)` | Check if the provided input is a valid string and ends with the provided substring.                                                                                                                                                   |
+|               `DoesntEndWith(string)` | Check if the provided input is a valid string and ends with the provided substring.                                                                                                                                                   |
+|                        `Same(string)` | Check if the provided input is the same as the target input.                                                                                                                                                                          |
+|                     `Enum(...string)` | Check if the provided input matches any of the listed enumerations values.                                                                                                                                                            |
+|                                 `URL` | Check if the provided input is a valid string and a valid URL.                                                                                                                                                                        |
+|                      `Regexp(string)` | Check if the provided input is a valid string and matches the required regular expression.                                                                                                                                            |
+|                                `UUID` | Check if the provided input is a valid string and a valid UUID.                                                                                                                                                                       |
+|                            `Password` | Check if the provided input is a valid string and a reasonably strong password. Password rules <br>- Minimum eight characters<br>- At least one uppercase letter<br>- One lowercase letter<br>- One number<br>- One special character |
+|                                `JSON` | Check if the provided code is a valid string and a valid json.                                                                                                                                                                        |
+|                            `DateTime` | Check if the provided input is a valid string and a valid ISO timestamp according to RFC3339: [Link](https://pkg.go.dev/time#pkg-constants).                                                                                          |
+|                                `Date` | Check if the provided input is a valid date-only string. Date string must be in format e.g. 2023-10-05. [Link](https://pkg.go.dev/time#pkg-constants).                                                                                |
+|                                `Time` | Check if the provided input is a valid string and a valid time-only string. Time string must be in 24-hours format: e.g. 10:20:00. [Link](https://pkg.go.dev/time#pkg-constants).                                                     |
+|                `DateEqual(time.Time)` | Check if the provided date is a date equal to the target date.                                                                                                                                                                        |
+|               `DateBefore(time.Time)` | Check if the provided input is a date before (but not equal) to the target date.                                                                                                                                                      |
+|                `DateAfter(time.Time)` | Check if the provided input is a date after the target date. If inclusive is set to true, target date will be included.                                                                                                               |
+|                            `Latitude` | Check if the provided input a valid map latitude value.                                                                                                                                                                               |
+|                           `Longitude` | Check if the provided input a valid map longitude value.                                                                                                                                                                              |
 
-- [x] Length: The input string length must be exactly equal to the provided length.
 
-```go
-// input string must be exactly 10 characters in length
-v.Length(10)
-```
 
-- [x] Min: The input string length must be equal or more than the provided length.
-
-```go
-// input string must be 5 characters or more in length
-// input int / float must be greater than 5
-v.Min(5)
-```
-
-- [x] MaxLength: The input string length must be equal or less than the provided length.
-
-```go
-// input string must be 5 characters or less in length
-v.MaxLength(20)
-```
-
-- [x] MinFloat: The input floating-point number must be equal or more than the provided limit.
-
-```go
-// input number must be at least 5.0 or more
-v.MinFloat(5.0)
-```
-
-- [x] MaxFloat: The input floating-point number must be equal or less than the provided limit.
-
-```go
-// input number must be 500.5 or less
-v.MaxFloat(500.5)
-```
-
-- [x] MinInt: The input integer number must be equal or more than the provided limit.
-
-```go
-// input number must be at least 100 or more
-v.MinInt(100)
-```
-
-- [x] MaxInt: The input integer number must be equal or less than the provided limit.
-
-```go
-// input number must be 200 or less
-v.MaxInt(200)
-```
-
-- [x] GreaterThan: The input floating-point number must be greater than the provided limit.
-
-```go
-// input number must be greater than 10.5 (non-inclusive)
-v.GreaterThan(10.5)
-```
-
-- [x] LessThanInt: The input integer number must be less than the provided limit.
-
-```go
-// input number must be less than 24 (non-inclusive)
-v.LessThanInt(24)
-```
-
-- [x] GreaterThanInt: The input integer number must be greater than the provided limit.
-
-```go
-// input number must be greater than 100 (non-inclusive)
-v.GreaterThanInt(100)
-```
-
-- [x] Email: The input must be a valid email address. 
-
-```go
-v.Email
-```
-
-- [x] UUID: The input must be a valid UUID string
-
-```go
-v.UUID
-```
-
-- [x] URL: The input must be a valid URL string
-
-```go
-v.URL
-```
-
-- [x] Password: The input must be a strong password. The following rules are applied. 
-    - Minimum eight characters
-    - At least one uppercase letter
-    - At least one lowercase letter
-    - At least one number
-    - At least one special character
-
-```go
-v.Password
-```
-
-- [x] JSON: Input must be a well-formed JSON string
-
-```go
-v.JSON
-```
-
-- [x] ISODate: The input must be valid ISO timestamp according to RFC3339: [Link](https://pkg.go.dev/time#pkg-constants). 
-
-```go
-// input string must conform to the format e.g 2024-03-22T12:35:05.115Z
-v.ISODate
-```
-
-- [x] Date: The input must be a valid date-only string. [Link](https://pkg.go.dev/time#pkg-constants).
-
-```go
-// input must be in format e.g. 2023-10-05
-v.Date
-```
-
-- [x] Time: The input must be a valid time-only string. [Link](https://pkg.go.dev/time#pkg-constants).
-
-```go
-// input must be in 24-hours format: e.g. 10:20:00
-v.Time
-```
-
-- [ ] DateEqual
-
-- [ ] Before date
-
-- [ ] After date
 
 - [ ] Before time: TODO
 
 - [ ] Before or equal to time: TODO
-
-- [x] StartsWith: The input string must begin with the provided prefix.
-
-```
-v.StartsWith("data:")
-```
-
-
-- [x] DoesntStartWith: The input string must not start with the provided prefix.
-
-```go
-v.DoesntStartWith("mysql")
-```
-
-- [x] EndsWith: The input string must end with the provided suffix.
-
-```go
-v.EndsWith("example")
-```
-
-
-- [x] DoesntEndWith: The input string must not end with the provided prefix.
-
-```go
-v.DoesntEndWith("sample")
-```
-
-
-- [x] Enum: The input string must be equal to one of the provided valid values.
-
-```go
-// values are provided in variadic fashion
-v.Enum("Value One", "Value Two", "Value Three")
-```
-
-
-- [x] Regexp: The input value must satisfy the provided regular expression.
-
-```go
-v.Regexp("^hello$")
-```
-
-
-- [x] Same: The input value must be the same as the required input. This validator can be used to confirm passwords.
-
-```go
-import (
-	"fmt"
-	v "github.com/moeenn/vld"
-)
-
-type RegisterForm struct {
-	Password        string
-	ConfirmPassword string
-}
-
-func main() {
-	form := RegisterForm{
-		Password:        "A832KCN284506b@",
-		ConfirmPassword: "A832KCN284506b@",
-	}
-
-	validations := []v.Validation{
-		{
-			Tag:   "password",
-			Data:  form.Password,
-			Rules: []v.Rule{v.NonEmptyString, v.Password},
-		},
-		{
-			Tag:   "confirm_password",
-			Data:  form.ConfirmPassword,
-			Rules: []v.Rule{v.Same("Password", form.Password)},
-		},
-	}
-
-	err := v.Validate(validations)
-	if err != nil {
-		validationErrors := err.(v.ValidationErrors)
-		fmt.Printf("validation errors: %v\n", validationErrors.Errors)
-		return
-	}
-
-	fmt.Println("validation successful")
-}
-```
-
-- [ ] Latitude: TODO
-
-- [ ] Longitude: TODO
 
 - [ ] Array: TODO
 
