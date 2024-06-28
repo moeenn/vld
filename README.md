@@ -56,8 +56,7 @@ func main() {
 		},
 	}
 
-	err := v.Validate(validations)
-	if err != nil {
+	if err := v.Validate(validations); err != nil {
 		validationErrors := err.(v.ValidationErrors)
 		fmt.Printf("validation errors: %v\n", validationErrors.Errors)
 		return
@@ -147,8 +146,7 @@ func main() {
 		},
 	}
 
-	err := v.Validate(validations)
-	if err != nil {
+	if err := v.Validate(validations); err != nil {
 		validationErrors := err.(v.ValidationErrors)
 		fmt.Printf("validation errors: %v\n", validationErrors.Errors)
 		return
