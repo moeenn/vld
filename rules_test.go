@@ -1041,3 +1041,79 @@ func TestDateAfterInvalidInputType(t *testing.T) {
 		return
 	}
 }
+
+/**
+ * Rule: Latitude
+ *
+ */
+func TestLatitudeValidInput(t *testing.T) {
+	inputs := []float32{31.475240, 67.724989, 82.326122, -6.538025}
+	for _, lat := range inputs {
+		result, err := Latitude(lat)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
+
+		if _, ok := result.(float32); !ok {
+			t.Error(errInvalidReturnType)
+			return
+		}
+	}
+}
+
+func TestLatitudeInvalidInput(t *testing.T) {
+	inputs := []float32{-91.475240, 100.724989}
+	for _, lat := range inputs {
+		_, err := Latitude(lat)
+		if err == nil {
+			t.Error(errInvalidPassed)
+			return
+		}
+	}
+}
+
+func TestLatitudeInvalidInputType(t *testing.T) {
+	if _, err := Latitude("abc"); err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}
+
+/**
+ * Rule: Longitude
+ *
+ */
+func TestLongitudeValidInput(t *testing.T) {
+	inputs := []float32{74.365614, 176.140846, -77.687278, 23.554154}
+	for _, lng := range inputs {
+		result, err := Longitude(lng)
+		if err != nil {
+			t.Errorf(errValidFailed, err.Error())
+			return
+		}
+
+		if _, ok := result.(float32); !ok {
+			t.Error(errInvalidReturnType)
+			return
+		}
+	}
+}
+
+func TestLongitudeInvalidInput(t *testing.T) {
+	inputs := []float32{-191.475240, 190.724989}
+	for _, lng := range inputs {
+		_, err := Longitude(lng)
+		if err == nil {
+			t.Error(errInvalidPassed)
+			return
+		}
+	}
+}
+
+func TestLongitudeInvalidInputType(t *testing.T) {
+	if _, err := Longitude(true); err == nil {
+		t.Error(errInvalidTypePassed)
+		return
+	}
+}

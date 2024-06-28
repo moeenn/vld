@@ -591,3 +591,35 @@ func DateAfter(target time.Time, inclusive bool) Rule {
 		return inputAsTime, nil
 	}
 }
+
+// Latitude check if the provided input a valid map latitude value.
+func Latitude(input any) (any, error) {
+	err := errors.New("please provide a valid latitude value")
+
+	inputAsFloat, ok := input.(float32)
+	if !ok {
+		return nil, err
+	}
+
+	if inputAsFloat < -90.0 || inputAsFloat > 90.0 {
+		return nil, err
+	}
+
+	return inputAsFloat, nil
+}
+
+// Longitude check if the provided input a valid map longitude value.
+func Longitude(input any) (any, error) {
+	err := errors.New("please provide a valid longitude value")
+
+	inputAsFloat, ok := input.(float32)
+	if !ok {
+		return nil, err
+	}
+
+	if inputAsFloat < -180.0 || inputAsFloat > 180.0 {
+		return nil, err
+	}
+
+	return inputAsFloat, nil
+}

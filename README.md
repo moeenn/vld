@@ -2,15 +2,6 @@
 A data validation library for GoLang.
 
 
-#### Installation
-
-Download the library 
-
-```bash
-go get github.com/moeenn/vld
-```
-
-
 #### Why not `go-playground/validator`?
 
 There is no denying that `validator` is an amazing package and is the ecosystem standard. However there are some issues with it
@@ -20,6 +11,15 @@ There is no denying that `validator` is an amazing package and is the ecosystem 
 - The mechanism for defining custom validators is not intuitive. 
 
 `vld` attempts to solve these problems.
+
+
+#### Installation
+
+Download the library 
+
+```bash
+go get github.com/moeenn/vld
+```
 
 
 #### Basic usage
@@ -206,11 +206,7 @@ v.Time
 
 - [ ] Before date
 
-- [ ] Before or equal to date: TODO
-
 - [ ] After date
-
-- [ ] After or equal to date: TODO
 
 - [ ] Before time: TODO
 
@@ -300,12 +296,6 @@ func main() {
 	fmt.Println("validation successful")
 }
 ```
-
-- [ ] Positive: TODO
-
-- [ ] Negative: TODO
-
-- [ ] RangeBetween: TODO
 
 - [ ] Latitude: TODO
 
