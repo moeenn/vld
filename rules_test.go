@@ -919,16 +919,22 @@ func TestDateEqualInvalidInputType(t *testing.T) {
  *
  */
 func TestDateBeforeValidInput(t *testing.T) {
-	inputs := []time.Time{
-		time.Date(2023, 10, 23, 0, 0, 0, 0, time.UTC),
-		time.Date(2005, 1, 2, 0, 0, 0, 0, time.UTC),
-		time.Date(1970, 2, 5, 0, 0, 0, 0, time.UTC),
-		time.Date(1950, 1, 1, 0, 0, 0, 0, time.UTC),
+	target := time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC)
+
+	testCases := []struct {
+		date      time.Time
+		inclusive bool
+	}{
+		{date: time.Date(2023, 10, 23, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(2005, 1, 2, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(1970, 2, 5, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(1950, 1, 1, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(1999, 1, 1, 0, 0, 0, 0, time.UTC), inclusive: true},
+		{date: target, inclusive: true},
 	}
 
-	v := DateBefore(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
-	for _, input := range inputs {
-		result, err := v(input)
+	for _, testCase := range testCases {
+		result, err := DateBefore(target, testCase.inclusive)(testCase.date)
 		if err != nil {
 			t.Errorf(errValidFailed, err.Error())
 			return
@@ -942,17 +948,21 @@ func TestDateBeforeValidInput(t *testing.T) {
 }
 
 func TestDateBeforeInvalidInput(t *testing.T) {
-	inputs := []time.Time{
-		time.Date(2030, 10, 23, 0, 0, 0, 0, time.UTC),
-		time.Date(2050, 1, 2, 0, 0, 0, 0, time.UTC),
-		time.Date(3050, 2, 5, 0, 0, 0, 0, time.UTC),
-		time.Date(3000, 1, 1, 0, 0, 0, 0, time.UTC),
-		time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC), // same as target
+	target := time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC)
+
+	testCases := []struct {
+		date      time.Time
+		inclusive bool
+	}{
+		{date: time.Date(2030, 10, 23, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(2050, 1, 2, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(3050, 2, 5, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(2035, 2, 5, 0, 0, 0, 0, time.UTC), inclusive: true},
+		{date: target, inclusive: false},
 	}
 
-	v := DateBefore(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
-	for _, input := range inputs {
-		_, err := v(input)
+	for _, testCase := range testCases {
+		_, err := DateBefore(target, testCase.inclusive)(testCase.date)
 		if err == nil {
 			t.Error(errInvalidPassed)
 			return
@@ -961,7 +971,7 @@ func TestDateBeforeInvalidInput(t *testing.T) {
 }
 
 func TestDateBeforeInvalidInputType(t *testing.T) {
-	v := DateBefore(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	v := DateBefore(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC), false)
 	if _, err := v(false); err == nil {
 		t.Error(errInvalidTypePassed)
 		return
@@ -973,16 +983,22 @@ func TestDateBeforeInvalidInputType(t *testing.T) {
  *
  */
 func TestDateAfterValidInput(t *testing.T) {
-	inputs := []time.Time{
-		time.Date(2030, 10, 23, 0, 0, 0, 0, time.UTC),
-		time.Date(2050, 1, 2, 0, 0, 0, 0, time.UTC),
-		time.Date(3050, 2, 5, 0, 0, 0, 0, time.UTC),
-		time.Date(3000, 1, 1, 0, 0, 0, 0, time.UTC),
+	target := time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC)
+
+	testCases := []struct {
+		date      time.Time
+		inclusive bool
+	}{
+		{date: time.Date(2030, 10, 23, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(2050, 1, 2, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(3050, 2, 5, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(3000, 1, 1, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC), inclusive: true},
+		{date: target, inclusive: true},
 	}
 
-	v := DateAfter(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
-	for _, input := range inputs {
-		result, err := v(input)
+	for _, testCase := range testCases {
+		result, err := DateAfter(target, testCase.inclusive)(testCase.date)
 		if err != nil {
 			t.Errorf(errValidFailed, err.Error())
 			return
@@ -996,17 +1012,21 @@ func TestDateAfterValidInput(t *testing.T) {
 }
 
 func TestDateAfterInvalidInput(t *testing.T) {
-	inputs := []time.Time{
-		time.Date(2023, 10, 23, 0, 0, 0, 0, time.UTC),
-		time.Date(2005, 1, 2, 0, 0, 0, 0, time.UTC),
-		time.Date(1970, 2, 5, 0, 0, 0, 0, time.UTC),
-		time.Date(1950, 1, 1, 0, 0, 0, 0, time.UTC),
-		time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC), // same as target
+	target := time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC)
+
+	testCases := []struct {
+		date      time.Time
+		inclusive bool
+	}{
+		{date: time.Date(2023, 10, 23, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(2005, 1, 2, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(1970, 2, 5, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: time.Date(1950, 1, 1, 0, 0, 0, 0, time.UTC), inclusive: false},
+		{date: target, inclusive: false},
 	}
 
-	v := DateAfter(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
-	for _, input := range inputs {
-		_, err := v(input)
+	for _, testCase := range testCases {
+		_, err := DateAfter(target, testCase.inclusive)(testCase.date)
 		if err == nil {
 			t.Error(errInvalidPassed)
 			return
@@ -1015,7 +1035,7 @@ func TestDateAfterInvalidInput(t *testing.T) {
 }
 
 func TestDateAfterInvalidInputType(t *testing.T) {
-	v := DateAfter(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC))
+	v := DateAfter(time.Date(2024, 12, 30, 0, 0, 0, 0, time.UTC), true)
 	if _, err := v(nil); err == nil {
 		t.Error(errInvalidTypePassed)
 		return
