@@ -78,11 +78,11 @@ func main() {
 | `GreaterThan(int \| float \| string)` | If the provided number is an `int` / `float(64)`, check input is more than (but not equal) to the target. If the provided input is a `string`, check its length is more than (but not equal) to the target.                           |
 |    `LessThan(int \| float \| string)` | If the provided number is an `int` / `float(64)`, check input is less than (but not equal) to the target. If the provided input is a `string`, check its length is less than (but not equal) to the target.                           |
 |                               `Email` | Check if the provide input is a valid email address                                                                                                                                                                                   |
-|                  `StartsWith(string)` | Check if the provided input is a valid string and starts with the provided substring.                                                                                                                                                 |
-|             `DoesntStartWith(string)` | Check if the provided input is a valid string and doesn't starts with the provided substring.                                                                                                                                         |
-|                    `EndsWith(string)` | Check if the provided input is a valid string and ends with the provided substring.                                                                                                                                                   |
-|               `DoesntEndWith(string)` | Check if the provided input is a valid string and ends with the provided substring.                                                                                                                                                   |
-|                        `Same(string)` | Check if the provided input is the same as the target input.                                                                                                                                                                          |
+|                  `HasPrefix(string)` | Check if the provided input is a valid string and starts with the provided substring.                                                                                                                                                 |
+|             `NotHasPrefix(string)` | Check if the provided input is a valid string and doesn't starts with the provided substring.                                                                                                                                         |
+|                    `HasSuffix(string)` | Check if the provided input is a valid string and ends with the provided substring.                                                                                                                                                   |
+|               `NotHasSuffix(string)` | Check if the provided input is a valid string and ends with the provided substring.                                                                                                                                                   |
+|                        `Equals(string)` | Check if the provided input is the same as the target input.                                                                                                                                                                          |
 |                     `Enum(...string)` | Check if the provided input matches any of the listed enumerations values.                                                                                                                                                            |
 |                                 `URL` | Check if the provided input is a valid string and a valid URL.                                                                                                                                                                        |
 |                      `Regexp(string)` | Check if the provided input is a valid string and matches the required regular expression.                                                                                                                                            |
@@ -162,8 +162,8 @@ func StartsWith(prefix string) Rule {
 
 #### TODO
 
-- [ ] Before time
-- [ ] Before or equal to time
+- [ ] Extend LessThan: Add option to check BeforeTime
+- [ ] Extend Equals: Add option to check ExactTime
 - Array
-	- [ ] MinItems 
-	- [ ] MaxItems
+	- [ ] Extend Min to allow checking MinItems 
+	- [ ] Extend Max to allow checking MaxItems

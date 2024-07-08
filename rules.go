@@ -323,9 +323,9 @@ func Email(input any) (any, error) {
 	return asString, nil
 }
 
-// StartsWith check if the provided input is a valid string and starts with the
+// HasPrefix check if the provided input is a valid string and starts with the
 // provided substring.
-func StartsWith(prefix string) Rule {
+func HasPrefix(prefix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must start with '%s'", prefix)
 		asString, ok := input.(string)
@@ -336,9 +336,9 @@ func StartsWith(prefix string) Rule {
 	}
 }
 
-// EndsWith check if the provided input is a valid string and ends with the
+// HasSuffix check if the provided input is a valid string and ends with the
 // provided substring.
-func EndsWith(suffix string) Rule {
+func HasSuffix(suffix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must end with '%s'", suffix)
 		asString, ok := input.(string)
@@ -349,9 +349,9 @@ func EndsWith(suffix string) Rule {
 	}
 }
 
-// DoesntStartWith check if the provided input is a valid string and doesn't
+// NotHasPrefix check if the provided input is a valid string and doesn't
 // starts with the provided substring.
-func DoesntStartWith(prefix string) Rule {
+func NotHasPrefix(prefix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must not start with '%s'", prefix)
 		asString, ok := input.(string)
@@ -362,9 +362,9 @@ func DoesntStartWith(prefix string) Rule {
 	}
 }
 
-// DoesntEndWith check if the provided input is a valid string and ends with the
+// NotHasSuffix check if the provided input is a valid string and ends with the
 // provided substring.
-func DoesntEndWith(suffix string) Rule {
+func NotHasSuffix(suffix string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must end with '%s'", suffix)
 		asString, ok := input.(string)
@@ -375,8 +375,10 @@ func DoesntEndWith(suffix string) Rule {
 	}
 }
 
-// Same check if the provided input is the same as the required input.
-func Same(targetName string, targetValue any) Rule {
+// Equals check if the provided input is the same as the required input.
+// TODO: merge DateEquals into this
+// TODO: extend to allow comparison of numbers
+func Equals(targetName string, targetValue any) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must be the same as '%s'", targetName)
 		if targetValue != input {
@@ -387,6 +389,7 @@ func Same(targetName string, targetValue any) Rule {
 }
 
 // Enum check if the provided input matches any of the listed enumerations values
+// TODO: allow numeric enums has well
 func Enum(enumValues ...string) Rule {
 	return func(input any) (any, error) {
 		err := fmt.Errorf("the input must match values %s", strings.Join(enumValues, ", "))
@@ -550,6 +553,7 @@ func DateEqual(target time.Time) Rule {
 
 // DateBefore check if the provided input is a date before (but not equal) to
 // the target date.
+// TODO: merge into LessThan
 func DateBefore(target time.Time, inclusive bool) Rule {
 	return func(input any) (any, error) {
 		inputAsTime, ok := input.(time.Time)
@@ -572,6 +576,7 @@ func DateBefore(target time.Time, inclusive bool) Rule {
 
 // DateAfter check if the provided input is a date after the target date. If
 // inclusive is set to true, target date will be included.
+// TODO: merge into GreaterThan
 func DateAfter(target time.Time, inclusive bool) Rule {
 	return func(input any) (any, error) {
 		inputAsTime, ok := input.(time.Time)

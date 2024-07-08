@@ -51,7 +51,7 @@ func TestResetPasswordExample(t *testing.T) {
 		{
 			Tag:   "confirm_password",
 			Data:  form.ConfirmPassword,
-			Rules: []Rule{Same("Password", form.Password)},
+			Rules: []Rule{Equals("Password", form.Password)},
 		},
 	}
 

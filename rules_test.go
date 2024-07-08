@@ -351,11 +351,11 @@ func TestEmailInvalidType(t *testing.T) {
 }
 
 /**
- * Rule: StartsWith
+ * Rule: HasPrefix
  *
  */
-func TestStartsWithValid(t *testing.T) {
-	v, err := StartsWith("sample")("sample input")
+func TestHasPrefixValid(t *testing.T) {
+	v, err := HasPrefix("sample")("sample input")
 	if err != nil {
 		t.Errorf(errValidFailed, err.Error())
 		return
@@ -367,27 +367,27 @@ func TestStartsWithValid(t *testing.T) {
 	}
 }
 
-func TestStartsWithInvalidInput(t *testing.T) {
-	_, err := StartsWith("id_")("random_input")
+func TestHasPrefixInvalidInput(t *testing.T) {
+	_, err := HasPrefix("id_")("random_input")
 	if err == nil {
 		t.Error(errInvalidPassed)
 		return
 	}
 }
 
-func TestStartsWithInvalidInputType(t *testing.T) {
-	_, err := StartsWith("id_")(4000)
+func TestHasPrefixInvalidInputType(t *testing.T) {
+	_, err := HasPrefix("id_")(4000)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 	}
 }
 
 /**
- * Rule: EndsWith
+ * Rule: HasSuffix
  *
  */
-func TestEndsWithValid(t *testing.T) {
-	v, err := EndsWith("sample")("input sample")
+func TestHasSuffixValid(t *testing.T) {
+	v, err := HasSuffix("sample")("input sample")
 	if err != nil {
 		t.Errorf(errValidFailed, err.Error())
 		return
@@ -399,27 +399,27 @@ func TestEndsWithValid(t *testing.T) {
 	}
 }
 
-func TestEndsWithInvalidInput(t *testing.T) {
-	_, err := EndsWith("_end")("random_input")
+func TestHasSuffixInvalidInput(t *testing.T) {
+	_, err := HasSuffix("_end")("random_input")
 	if err == nil {
 		t.Error(errInvalidPassed)
 		return
 	}
 }
 
-func TestEndsWithInvalidInputType(t *testing.T) {
-	_, err := EndsWith("id")(4000)
+func TestHasSuffixInvalidInputType(t *testing.T) {
+	_, err := HasSuffix("id")(4000)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 	}
 }
 
 /**
- * Rule: DoesntStartWith
+ * Rule: NotHasPrefix
  *
  */
-func TestDoesntStartWithValid(t *testing.T) {
-	v, err := DoesntStartWith("sample")("1sample input")
+func TestNotHasPrefixValid(t *testing.T) {
+	v, err := NotHasPrefix("sample")("1sample input")
 	if err != nil {
 		t.Errorf(errValidFailed, err.Error())
 		return
@@ -431,16 +431,16 @@ func TestDoesntStartWithValid(t *testing.T) {
 	}
 }
 
-func TestDoesntStartWithInvalidInput(t *testing.T) {
-	_, err := DoesntStartWith("id_")("id_random_input")
+func TestNotHasPrefixInvalidInput(t *testing.T) {
+	_, err := NotHasPrefix("id_")("id_random_input")
 	if err == nil {
 		t.Error(errInvalidPassed)
 		return
 	}
 }
 
-func TestDoesntStartWithInvalidInputType(t *testing.T) {
-	_, err := DoesntStartWith("id_")(4000)
+func TestNotHasPrefixInvalidInputType(t *testing.T) {
+	_, err := NotHasPrefix("id_")(4000)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 		return
@@ -448,11 +448,11 @@ func TestDoesntStartWithInvalidInputType(t *testing.T) {
 }
 
 /**
- * Rule: DoesntEndWith
+ * Rule: NotHasSuffix
  *
  */
-func TestDoesntEndWithValid(t *testing.T) {
-	v, err := DoesntEndWith("sample")("input samplex")
+func TestNotHasSuffixValid(t *testing.T) {
+	v, err := NotHasSuffix("sample")("input samplex")
 	if err != nil {
 		t.Errorf(errValidFailed, err.Error())
 		return
@@ -464,33 +464,33 @@ func TestDoesntEndWithValid(t *testing.T) {
 	}
 }
 
-func TestDoesntEndWithInvalidInput(t *testing.T) {
-	_, err := DoesntEndWith("_end")("random_input_end")
+func TestNotHasSuffixInvalidInput(t *testing.T) {
+	_, err := NotHasSuffix("_end")("random_input_end")
 	if err == nil {
 		t.Error(errInvalidPassed)
 		return
 	}
 }
 
-func TestDoesntEndWithInvalidInputType(t *testing.T) {
-	_, err := DoesntEndWith("id")(4000)
+func TestNotHasSuffixInvalidInputType(t *testing.T) {
+	_, err := NotHasSuffix("id")(4000)
 	if err == nil {
 		t.Error(errInvalidTypePassed)
 	}
 }
 
 /**
- * Rule: Same
+ * Rule: Equals
  *
  */
-func TestSameValidInput(t *testing.T) {
-	v, err := Same("Password", "confirmed_password")("confirmed_password")
+func TestEqualsValidInput(t *testing.T) {
+	v, err := Equals("Password", "confirmed_password")("confirmed_password")
 	if err != nil {
 		t.Errorf(errValidFailed, err.Error())
 		return
 	}
 
-	_, err = Same("Payment", 300.5)(300.5)
+	_, err = Equals("Payment", 300.5)(300.5)
 	if err != nil {
 		t.Errorf(errValidFailed, err.Error())
 		return
@@ -502,22 +502,22 @@ func TestSameValidInput(t *testing.T) {
 	}
 }
 
-func TestSameInvalidInput(t *testing.T) {
-	_, err := Same("Repo name", "github.com/sample/example")("github.com/example/sample")
+func TestEqualsInvalidInput(t *testing.T) {
+	_, err := Equals("Repo name", "github.com/sample/example")("github.com/example/sample")
 	if err == nil {
 		t.Error(errInvalidPassed)
 		return
 	}
 
-	_, err = Same("Random", false)(true)
+	_, err = Equals("Random", false)(true)
 	if err == nil {
 		t.Error(errInvalidPassed)
 		return
 	}
 }
 
-func TestSameMismatchBetweenTypes(t *testing.T) {
-	_, err := Same("Example", 40.55)(true)
+func TestEqualsMismatchBetweenTypes(t *testing.T) {
+	_, err := Equals("Example", 40.55)(true)
 	if err == nil {
 		t.Errorf(errInvalidTypePassed)
 		return
