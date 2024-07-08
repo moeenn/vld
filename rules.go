@@ -47,55 +47,56 @@ func Min(target any) Rule {
 			return nil, errors.New("invalid target type provided")
 		}
 
-		asInt, okIntCast := input.(int)
-		if okIntCast {
-			if okTargetIntCast {
-				if asInt < targetAsInt {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+		switch t := input.(type) {
+		case int:
+			{
+				if okTargetIntCast {
+					if t < targetAsInt {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
-			}
 
-			if okTargetFloatCast {
-				if float64(asInt) < targetAsFloat {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+				if okTargetFloatCast {
+					if float64(t) < targetAsFloat {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
 			}
-		}
 
-		asFloat, okFloatCast := input.(float64)
-		if okFloatCast {
-			if okTargetIntCast {
-				if asFloat < float64(targetAsInt) {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+		case float64:
+			{
+				if okTargetIntCast {
+					if t < float64(targetAsInt) {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
-			}
 
-			if okTargetFloatCast {
-				if asFloat < targetAsFloat {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+				if okTargetFloatCast {
+					if t < targetAsFloat {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
 			}
-		}
 
-		asString, okStringCast := input.(string)
-		if okStringCast {
-			if okTargetIntCast {
-				if len(asString) < targetAsInt {
-					return nil, fmt.Errorf("length must be more than %d characters", target)
+		case string:
+			{
+				if okTargetIntCast {
+					if len(t) < targetAsInt {
+						return nil, fmt.Errorf("length must be more than %d characters", target)
+					}
+					return t, nil
 				}
-				return asString, nil
+
+				if okTargetFloatCast {
+					return nil, errors.New("string length cannot be a floating point number")
+				}
 			}
 
-			if okTargetFloatCast {
-				return nil, errors.New("string length cannot be a floating point number")
-			}
-		}
-
-		if !okIntCast && !okFloatCast && !okStringCast {
+		default:
 			return nil, errors.New("invalid data type provided")
 		}
 
@@ -115,55 +116,56 @@ func Max(target any) Rule {
 			return nil, errors.New("invalid target type provided")
 		}
 
-		asInt, okIntCast := input.(int)
-		if okIntCast {
-			if okTargetIntCast {
-				if asInt > targetAsInt {
-					return nil, fmt.Errorf("number must be less than %d", target)
+		switch t := input.(type) {
+		case int:
+			{
+				if okTargetIntCast {
+					if t > targetAsInt {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
-			}
 
-			if okTargetFloatCast {
-				if float64(asInt) > targetAsFloat {
-					return nil, fmt.Errorf("number must be less than %d", target)
+				if okTargetFloatCast {
+					if float64(t) > targetAsFloat {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
 			}
-		}
 
-		asFloat, okFloatCast := input.(float64)
-		if okFloatCast {
-			if okTargetIntCast {
-				if asFloat > float64(targetAsInt) {
-					return nil, fmt.Errorf("number must be less than %d", target)
+		case float64:
+			{
+				if okTargetIntCast {
+					if t > float64(targetAsInt) {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
-			}
 
-			if okTargetFloatCast {
-				if asFloat > targetAsFloat {
-					return nil, fmt.Errorf("number must be less than %d", target)
+				if okTargetFloatCast {
+					if t > targetAsFloat {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
 			}
-		}
 
-		asString, okStringCast := input.(string)
-		if okStringCast {
-			if okTargetIntCast {
-				if len(asString) > targetAsInt {
-					return nil, fmt.Errorf("length must be less than %d characters", target)
+		case string:
+			{
+				if okTargetIntCast {
+					if len(t) > targetAsInt {
+						return nil, fmt.Errorf("length must be less than %d characters", target)
+					}
+					return t, nil
 				}
-				return asString, nil
+
+				if okTargetFloatCast {
+					return nil, errors.New("string length cannot be a floating point number")
+				}
 			}
 
-			if okTargetFloatCast {
-				return nil, errors.New("string length cannot be a floating point number")
-			}
-		}
-
-		if !okIntCast && !okFloatCast && !okStringCast {
+		default:
 			return nil, errors.New("invalid data type provided")
 		}
 
@@ -183,55 +185,56 @@ func GreaterThan(target any) Rule {
 			return nil, errors.New("invalid target type provided")
 		}
 
-		asInt, okIntCast := input.(int)
-		if okIntCast {
-			if okTargetIntCast {
-				if asInt <= targetAsInt {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+		switch t := input.(type) {
+		case int:
+			{
+				if okTargetIntCast {
+					if t <= targetAsInt {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
-			}
 
-			if okTargetFloatCast {
-				if float64(asInt) <= targetAsFloat {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+				if okTargetFloatCast {
+					if float64(t) <= targetAsFloat {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
 			}
-		}
 
-		asFloat, okFloatCast := input.(float64)
-		if okFloatCast {
-			if okTargetIntCast {
-				if asFloat <= float64(targetAsInt) {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+		case float64:
+			{
+				if okTargetIntCast {
+					if t <= float64(targetAsInt) {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
-			}
 
-			if okTargetFloatCast {
-				if asFloat <= targetAsFloat {
-					return nil, fmt.Errorf("number must be greater than %d", target)
+				if okTargetFloatCast {
+					if t <= targetAsFloat {
+						return nil, fmt.Errorf("number must be greater than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
 			}
-		}
 
-		asString, okStringCast := input.(string)
-		if okStringCast {
-			if okTargetIntCast {
-				if len(asString) <= targetAsInt {
-					return nil, fmt.Errorf("length must be more than %d characters", target)
+		case string:
+			{
+				if okTargetIntCast {
+					if len(t) <= targetAsInt {
+						return nil, fmt.Errorf("length must be more than %d characters", target)
+					}
+					return t, nil
 				}
-				return asString, nil
+
+				if okTargetFloatCast {
+					return nil, errors.New("string length cannot be a floating point number")
+				}
 			}
 
-			if okTargetFloatCast {
-				return nil, errors.New("string length cannot be a floating point number")
-			}
-		}
-
-		if !okIntCast && !okFloatCast && !okStringCast {
+		default:
 			return nil, errors.New("invalid data type provided")
 		}
 
@@ -251,55 +254,56 @@ func LessThan(target any) Rule {
 			return nil, errors.New("invalid target type provided")
 		}
 
-		asInt, okIntCast := input.(int)
-		if okIntCast {
-			if okTargetIntCast {
-				if asInt >= targetAsInt {
-					return nil, fmt.Errorf("number must be less than %d", target)
+		switch t := input.(type) {
+		case int:
+			{
+				if okTargetIntCast {
+					if t >= targetAsInt {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
-			}
 
-			if okTargetFloatCast {
-				if float64(asInt) >= targetAsFloat {
-					return nil, fmt.Errorf("number must be less than %d", target)
+				if okTargetFloatCast {
+					if float64(t) >= targetAsFloat {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asInt, nil
 			}
-		}
 
-		asFloat, okFloatCast := input.(float64)
-		if okFloatCast {
-			if okTargetIntCast {
-				if asFloat >= float64(targetAsInt) {
-					return nil, fmt.Errorf("number must be less than %d", target)
+		case float64:
+			{
+				if okTargetIntCast {
+					if t >= float64(targetAsInt) {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
-			}
 
-			if okTargetFloatCast {
-				if asFloat >= targetAsFloat {
-					return nil, fmt.Errorf("number must be less than %d", target)
+				if okTargetFloatCast {
+					if t >= targetAsFloat {
+						return nil, fmt.Errorf("number must be less than %d", target)
+					}
+					return t, nil
 				}
-				return asFloat, nil
 			}
-		}
 
-		asString, okStringCast := input.(string)
-		if okStringCast {
-			if okTargetIntCast {
-				if len(asString) >= targetAsInt {
-					return nil, fmt.Errorf("length must be less than %d characters", target)
+		case string:
+			{
+				if okTargetIntCast {
+					if len(t) >= targetAsInt {
+						return nil, fmt.Errorf("length must be less than %d characters", target)
+					}
+					return t, nil
 				}
-				return asString, nil
+
+				if okTargetFloatCast {
+					return nil, errors.New("string length cannot be a floating point number")
+				}
 			}
 
-			if okTargetFloatCast {
-				return nil, errors.New("string length cannot be a floating point number")
-			}
-		}
-
-		if !okIntCast && !okFloatCast && !okStringCast {
+		default:
 			return nil, errors.New("invalid data type provided")
 		}
 
