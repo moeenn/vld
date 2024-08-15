@@ -1,6 +1,7 @@
 package vld
 
 const (
+	CODE_UNKNOWN          = "unknown"
 	CODE_NON_EMPTY_STRING = "non-empty-string"
 	CODE_LENGTH           = "length"
 	CODE_MIN              = "min"

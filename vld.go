@@ -1,13 +1,23 @@
 package vld
 
 type Issue struct {
+	Code    string
+	Message string
+	Value   any
+}
+
+func (issue Issue) Error() string {
+	return issue.Message
+}
+
+type IssueDTO struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
 	Value   any    `json:"value"`
 }
 
-func (issue Issue) Error() string {
-	return issue.Message
+func IssueDTOFromIssue(issue Issue) IssueDTO {
+	return IssueDTO(issue)
 }
 
 type Rule func(any) (any, error)
@@ -19,7 +29,7 @@ type Validation struct {
 }
 
 type ValidationErrors struct {
-	Errors map[string]Issue `json:"errors"`
+	Errors map[string]IssueDTO `json:"errors"`
 }
 
 func (v ValidationErrors) Error() string {
@@ -28,7 +38,7 @@ func (v ValidationErrors) Error() string {
 
 func Validate(validations []Validation) error {
 	errors := ValidationErrors{
-		Errors: make(map[string]Issue),
+		Errors: make(map[string]IssueDTO),
 	}
 
 	for _, validation := range validations {
@@ -44,10 +54,10 @@ func Validate(validations []Validation) error {
 			if err != nil {
 				validationIssue, ok := err.(Issue)
 				if ok {
-					errors.Errors[validation.Tag] = validationIssue
+					errors.Errors[validation.Tag] = IssueDTOFromIssue(validationIssue)
 				} else {
-					errors.Errors[validation.Tag] = Issue{
-						Code:    "unknown", // TODO: add to global CODE_*
+					errors.Errors[validation.Tag] = IssueDTO{
+						Code:    CODE_UNKNOWN,
 						Message: err.Error(),
 					}
 				}
