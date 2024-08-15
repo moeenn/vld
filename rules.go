@@ -13,9 +13,14 @@ import (
 
 // NonEmptyString check if provided input is a non-empty string.
 func NonEmptyString(input any) (any, error) {
+	issue := &Issue{
+		Code:    CODE_NON_EMPTY_STRING,
+		Message: "Please provide a non-empty string",
+	}
+
 	asString, ok := input.(string)
 	if !ok || asString == "" {
-		return nil, errors.New("please provide a non-empty string")
+		return nil, issue
 	}
 
 	return asString, nil
@@ -25,10 +30,15 @@ func NonEmptyString(input any) (any, error) {
 // the provided length.
 func Length(length int) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("the value must be %d characters in length", length)
+		issue := &Issue{
+			Code:    CODE_LENGTH,
+			Message: fmt.Sprintf("The value must be %d characters in length", length),
+			Value:   length,
+		}
+
 		asString, ok := input.(string)
 		if !ok || len(asString) != length {
-			return nil, err
+			return nil, issue
 		}
 
 		return asString, nil
@@ -52,14 +62,22 @@ func Min(target any) Rule {
 			{
 				if okTargetIntCast {
 					if t < targetAsInt {
-						return nil, fmt.Errorf("number must be greater than %d", target)
+						return nil, Issue{
+							Code:    CODE_MIN,
+							Message: fmt.Sprintf("The number must be greater than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
 
 				if okTargetFloatCast {
 					if float64(t) < targetAsFloat {
-						return nil, fmt.Errorf("number must be greater than %d", target)
+						return nil, Issue{
+							Code:    CODE_MIN,
+							Message: fmt.Sprintf("The number must be greater than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -69,14 +87,22 @@ func Min(target any) Rule {
 			{
 				if okTargetIntCast {
 					if t < float64(targetAsInt) {
-						return nil, fmt.Errorf("number must be greater than %d", target)
+						return nil, Issue{
+							Code:    CODE_MIN,
+							Message: fmt.Sprintf("The number must be greater than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
 
 				if okTargetFloatCast {
 					if t < targetAsFloat {
-						return nil, fmt.Errorf("number must be greater than %d", target)
+						return nil, Issue{
+							Code:    CODE_MIN,
+							Message: fmt.Sprintf("The number must be greater than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -86,7 +112,11 @@ func Min(target any) Rule {
 			{
 				if okTargetIntCast {
 					if len(t) < targetAsInt {
-						return nil, fmt.Errorf("length must be more than %d characters", target)
+						return nil, Issue{
+							Code:    CODE_MIN,
+							Message: fmt.Sprintf("The length must be more than %d characters", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -121,14 +151,22 @@ func Max(target any) Rule {
 			{
 				if okTargetIntCast {
 					if t > targetAsInt {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_MAX,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
 
 				if okTargetFloatCast {
 					if float64(t) > targetAsFloat {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_MAX,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -138,14 +176,22 @@ func Max(target any) Rule {
 			{
 				if okTargetIntCast {
 					if t > float64(targetAsInt) {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_MAX,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
 
 				if okTargetFloatCast {
 					if t > targetAsFloat {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_MAX,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -155,7 +201,11 @@ func Max(target any) Rule {
 			{
 				if okTargetIntCast {
 					if len(t) > targetAsInt {
-						return nil, fmt.Errorf("length must be less than %d characters", target)
+						return nil, Issue{
+							Code:    CODE_MAX,
+							Message: fmt.Sprintf("The length must be less than %d characters", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -259,14 +309,22 @@ func LessThan(target any) Rule {
 			{
 				if okTargetIntCast {
 					if t >= targetAsInt {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_LESS_THAN,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
 
 				if okTargetFloatCast {
 					if float64(t) >= targetAsFloat {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_LESS_THAN,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -276,14 +334,22 @@ func LessThan(target any) Rule {
 			{
 				if okTargetIntCast {
 					if t >= float64(targetAsInt) {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_LESS_THAN,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
 
 				if okTargetFloatCast {
 					if t >= targetAsFloat {
-						return nil, fmt.Errorf("number must be less than %d", target)
+						return nil, Issue{
+							Code:    CODE_LESS_THAN,
+							Message: fmt.Sprintf("The number must be less than %d", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -293,7 +359,11 @@ func LessThan(target any) Rule {
 			{
 				if okTargetIntCast {
 					if len(t) >= targetAsInt {
-						return nil, fmt.Errorf("length must be less than %d characters", target)
+						return nil, Issue{
+							Code:    CODE_LESS_THAN,
+							Message: fmt.Sprintf("The length must be less than %d characters", target),
+							Value:   target,
+						}
 					}
 					return t, nil
 				}
@@ -313,15 +383,19 @@ func LessThan(target any) Rule {
 
 // Email check if the provide input is a valid email address.
 func Email(input any) (any, error) {
-	err := errors.New("please provide a valid email address")
+	issue := Issue{
+		Code:    CODE_EMAIL,
+		Message: "Please provide a valid email address",
+	}
+
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	match, errMatch := regexp.MatchString(PATTERN_EMAIL, asString)
 	if errMatch != nil || !match {
-		return nil, err
+		return nil, issue
 	}
 
 	return asString, nil
@@ -331,10 +405,15 @@ func Email(input any) (any, error) {
 // provided substring.
 func HasPrefix(prefix string) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("the input must start with '%s'", prefix)
+		issue := Issue{
+			Code:    CODE_HAS_PREFIX,
+			Message: fmt.Sprintf("The input must start with '%s'", prefix),
+			Value:   prefix,
+		}
+
 		asString, ok := input.(string)
 		if !ok || !strings.HasPrefix(asString, prefix) {
-			return nil, err
+			return nil, issue
 		}
 		return asString, nil
 	}
@@ -344,10 +423,15 @@ func HasPrefix(prefix string) Rule {
 // provided substring.
 func HasSuffix(suffix string) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("the input must end with '%s'", suffix)
+		issue := Issue{
+			Code:    CODE_HAS_SUFFIX,
+			Message: fmt.Sprintf("The input must end with '%s'", suffix),
+			Value:   suffix,
+		}
+
 		asString, ok := input.(string)
 		if !ok || !strings.HasSuffix(asString, suffix) {
-			return nil, err
+			return nil, issue
 		}
 		return asString, nil
 	}
@@ -357,10 +441,15 @@ func HasSuffix(suffix string) Rule {
 // starts with the provided substring.
 func NotHasPrefix(prefix string) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("the input must not start with '%s'", prefix)
+		issue := Issue{
+			Code:    CODE_NOT_HAS_PREFIX,
+			Message: fmt.Sprintf("The input must not start with '%s'", prefix),
+			Value:   prefix,
+		}
+
 		asString, ok := input.(string)
 		if !ok || strings.HasPrefix(asString, prefix) {
-			return nil, err
+			return nil, issue
 		}
 		return asString, nil
 	}
@@ -370,10 +459,14 @@ func NotHasPrefix(prefix string) Rule {
 // provided substring.
 func NotHasSuffix(suffix string) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("the input must end with '%s'", suffix)
+		issue := Issue{
+			Code:    CODE_NOT_HAS_SUFFIX,
+			Message: fmt.Sprintf("The input must end with '%s'", suffix),
+			Value:   suffix,
+		}
 		asString, ok := input.(string)
 		if !ok || strings.HasSuffix(asString, suffix) {
-			return nil, err
+			return nil, issue
 		}
 		return asString, nil
 	}
@@ -384,9 +477,13 @@ func NotHasSuffix(suffix string) Rule {
 // TODO: extend to allow comparison of numbers
 func Equals(targetName string, targetValue any) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("the input must be the same as '%s'", targetName)
+		issue := Issue{
+			Code:    CODE_EQUALS,
+			Message: fmt.Sprintf("The input must be the same as '%s'", targetName),
+			Value:   targetName, // TODO: confirm targetName or targetValue
+		}
 		if targetValue != input {
-			return nil, err
+			return nil, issue
 		}
 		return targetValue, nil
 	}
@@ -396,10 +493,14 @@ func Equals(targetName string, targetValue any) Rule {
 // TODO: allow numeric enums has well
 func Enum(enumValues ...string) Rule {
 	return func(input any) (any, error) {
-		err := fmt.Errorf("the input must match values %s", strings.Join(enumValues, ", "))
+		issue := Issue{
+			Code:    CODE_ENUM,
+			Message: fmt.Sprintf("The input must match values %s", strings.Join(enumValues, ", ")),
+			Value:   enumValues,
+		}
 		asString, ok := input.(string)
 		if !ok || !slices.Contains(enumValues, asString) {
-			return nil, err
+			return nil, issue
 		}
 		return asString, nil
 	}
@@ -407,15 +508,18 @@ func Enum(enumValues ...string) Rule {
 
 // URL check if the provided input is a valid string and a valid URL.
 func URL(input any) (any, error) {
-	err := errors.New("the input must be a valid URL")
+	issue := Issue{
+		Code:    CODE_URL,
+		Message: "Please provide a valid URL",
+	}
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
-	_, err = url.ParseRequestURI(asString)
+	_, err := url.ParseRequestURI(asString)
 	if err != nil {
-		return nil, err
+		return nil, issue
 	}
 	return asString, nil
 }
@@ -424,15 +528,18 @@ func URL(input any) (any, error) {
 // regular expression.
 func Regexp(pattern string) Rule {
 	return func(input any) (any, error) {
-		err := errors.New("the input doesn't match the required pattern")
+		issue := Issue{
+			Code:    CODE_REGEXP,
+			Message: "The input doesn't match the required pattern",
+		}
 		asString, ok := input.(string)
 		if !ok {
-			return nil, err
+			return nil, issue
 		}
 
 		match, errMatch := regexp.MatchString(pattern, asString)
 		if errMatch != nil || !match {
-			return nil, err
+			return nil, issue
 		}
 		return asString, nil
 	}
@@ -440,15 +547,18 @@ func Regexp(pattern string) Rule {
 
 // UUID check if the provided input is a valid string and a valid UUID.
 func UUID(input any) (any, error) {
-	err := errors.New("the input must be a valid UUID string")
+	issue := Issue{
+		Code:    CODE_UUID,
+		Message: "Please provide a valid UUID string",
+	}
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	match, errMatch := regexp.MatchString(PATTERN_UUID, asString)
 	if errMatch != nil || !match {
-		return nil, err
+		return nil, issue
 	}
 	return asString, nil
 }
@@ -456,10 +566,13 @@ func UUID(input any) (any, error) {
 // Password check if the provided input is a valid string and a reasonably strong
 // password.
 func Password(input any) (any, error) {
-	err := errors.New("please provide a stronger password")
+	issue := Issue{
+		Code:    CODE_PASSWORD,
+		Message: "Please provide a stronger password",
+	}
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	match, errMatch := regexp.MatchString(PATTERN_PASSWORD_STRENGTH, asString)
@@ -467,23 +580,26 @@ func Password(input any) (any, error) {
 	// NOTE: regexp pattern being used matches invalid passwords instead of
 	// strong passwords. If match is true, it means password was weak.
 	if errMatch != nil || match {
-		return nil, err
+		return nil, issue
 	}
 	return asString, nil
 }
 
 // JSON check if the provided code is a valid string and a valid json.
 func JSON(input any) (any, error) {
-	err := errors.New("the input must be a valid JSON string")
+	issue := Issue{
+		Code:    CODE_JSON,
+		Message: "Please provide a valid JSON string",
+	}
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	var target any
 	errUnmarshal := json.Unmarshal([]byte(asString), &target)
 	if errUnmarshal != nil {
-		return nil, err
+		return nil, issue
 	}
 	return asString, nil
 }
@@ -491,15 +607,18 @@ func JSON(input any) (any, error) {
 // DateTime check if the provided input is a valid string and a valid ISO
 // timestamp according to RFC3339: [Link](https://pkg.go.dev/time#pkg-constants).
 func DateTime(input any) (any, error) {
-	err := errors.New("please provide a valid date")
+	issue := Issue{
+		Code:    CODE_DATE_TIME,
+		Message: "Please provide a valid date",
+	}
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	asDate, parseErr := time.Parse(time.RFC3339, asString)
 	if parseErr != nil {
-		return nil, err
+		return nil, issue
 	}
 	return asDate, nil
 }
@@ -508,15 +627,18 @@ func DateTime(input any) (any, error) {
 // must be in format e.g. 2023-10-05
 // [Link](https://pkg.go.dev/time#pkg-constants).
 func Date(input any) (any, error) {
-	err := errors.New("please provide a valid date")
+	issue := Issue{
+		Code:    CODE_DATE,
+		Message: "Please provide a valid date",
+	}
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	asDate, parseErr := time.Parse(time.DateOnly, asString)
 	if parseErr != nil {
-		return nil, err
+		return nil, issue
 	}
 	return asDate, nil
 }
@@ -525,15 +647,18 @@ func Date(input any) (any, error) {
 // string. Time string must be in 24-hours format: e.g. 10:20:00
 // [Link](https://pkg.go.dev/time#pkg-constants).
 func Time(input any) (any, error) {
-	err := errors.New("please provide a valid time")
+	issue := Issue{
+		Code:    CODE_TIME,
+		Message: "Please provide a valid time",
+	}
 	asString, ok := input.(string)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	asTime, parseErr := time.Parse(time.TimeOnly, asString)
 	if parseErr != nil {
-		return nil, err
+		return nil, issue
 	}
 	return asTime, nil
 }
@@ -548,7 +673,11 @@ func DateEqual(target time.Time) Rule {
 
 		delta := inputAsTime.Sub(target)
 		if delta != 0 {
-			return nil, errors.New("the provided date must be " + target.String())
+			return nil, Issue{
+				Code:    CODE_DATE_EQUAL,
+				Message: "The provided date must be " + target.String(),
+				Value:   target.String(),
+			}
 		}
 
 		return inputAsTime, nil
@@ -567,11 +696,19 @@ func DateBefore(target time.Time, inclusive bool) Rule {
 
 		delta := inputAsTime.Sub(target)
 		if !inclusive && delta >= 0 {
-			return nil, errors.New("the provided date must be before " + target.String())
+			return nil, Issue{
+				Code:    CODE_DATE_BEFORE,
+				Message: "The provided date must be before " + target.String(),
+				Value:   target.String(),
+			}
 		}
 
 		if inclusive && delta > 0 {
-			return nil, errors.New("the provided date must be before or equal to " + target.String())
+			return nil, Issue{
+				Code:    CODE_DATE_BEFORE,
+				Message: "The provided date must be before or equal to " + target.String(),
+				Value:   target.String(),
+			}
 		}
 
 		return inputAsTime, nil
@@ -590,11 +727,19 @@ func DateAfter(target time.Time, inclusive bool) Rule {
 
 		delta := inputAsTime.Sub(target)
 		if !inclusive && delta <= 0 {
-			return nil, errors.New("the provided date must be after " + target.String())
+			return nil, Issue{
+				Code:    CODE_DATE_AFTER,
+				Message: "The provided date must be after " + target.String(),
+				Value:   target.String(),
+			}
 		}
 
 		if inclusive && delta < 0 {
-			return nil, errors.New("the provided date must be after or equal to " + target.String())
+			return nil, Issue{
+				Code:    CODE_DATE_AFTER,
+				Message: "The provided date must be after or equal to " + target.String(),
+				Value:   target.String(),
+			}
 		}
 
 		return inputAsTime, nil
@@ -603,15 +748,18 @@ func DateAfter(target time.Time, inclusive bool) Rule {
 
 // Latitude check if the provided input a valid map latitude value.
 func Latitude(input any) (any, error) {
-	err := errors.New("please provide a valid latitude value")
+	issue := Issue{
+		Code:    CODE_LATITUDE,
+		Message: "Please provide a valid latitude value",
+	}
 
 	inputAsFloat, ok := input.(float32)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	if inputAsFloat < -90.0 || inputAsFloat > 90.0 {
-		return nil, err
+		return nil, issue
 	}
 
 	return inputAsFloat, nil
@@ -619,15 +767,18 @@ func Latitude(input any) (any, error) {
 
 // Longitude check if the provided input a valid map longitude value.
 func Longitude(input any) (any, error) {
-	err := errors.New("please provide a valid longitude value")
+	issue := Issue{
+		Code:    CODE_LONGITUDE,
+		Message: "Please provide a valid longitude value",
+	}
 
 	inputAsFloat, ok := input.(float32)
 	if !ok {
-		return nil, err
+		return nil, issue
 	}
 
 	if inputAsFloat < -180.0 || inputAsFloat > 180.0 {
-		return nil, err
+		return nil, issue
 	}
 
 	return inputAsFloat, nil

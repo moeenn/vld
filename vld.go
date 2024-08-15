@@ -1,5 +1,15 @@
 package vld
 
+type Issue struct {
+	Code    string `json:"code"`
+	Message string `json:"message"`
+	Value   any    `json:"value"`
+}
+
+func (issue Issue) Error() string {
+	return issue.Message
+}
+
 type Rule func(any) (any, error)
 
 type Validation struct {
