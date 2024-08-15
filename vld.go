@@ -19,7 +19,7 @@ type Validation struct {
 }
 
 type ValidationErrors struct {
-	Errors map[string]string `json:"errors"`
+	Errors map[string]Issue `json:"errors"`
 }
 
 func (v ValidationErrors) Error() string {
@@ -28,7 +28,7 @@ func (v ValidationErrors) Error() string {
 
 func Validate(validations []Validation) error {
 	errors := ValidationErrors{
-		Errors: make(map[string]string),
+		Errors: make(map[string]Issue),
 	}
 
 	for _, validation := range validations {
@@ -42,7 +42,15 @@ func Validate(validations []Validation) error {
 		for _, rule := range validation.Rules {
 			data, err = rule(data)
 			if err != nil {
-				errors.Errors[validation.Tag] = err.Error()
+				validationIssue, ok := err.(Issue)
+				if ok {
+					errors.Errors[validation.Tag] = validationIssue
+				} else {
+					errors.Errors[validation.Tag] = Issue{
+						Code:    "unknown", // TODO: add to global CODE_*
+						Message: err.Error(),
+					}
+				}
 			}
 		}
 	}
