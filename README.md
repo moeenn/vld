@@ -58,7 +58,13 @@ func main() {
 
 	if err := v.Validate(validations); err != nil {
 		validationErrors := err.(v.ValidationErrors)
-		fmt.Printf("validation errors: %v\n", validationErrors.Errors)
+		encoded, err := json.Marshal(validationErrors)
+		if err != nil {
+			fmt.Println("failed to encode errors")
+			return
+		}
+
+		fmt.Printf("validation errors (JSON): %s\n", encoded)
 		return
 	}
 

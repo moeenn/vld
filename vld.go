@@ -10,6 +10,9 @@ func (issue Issue) Error() string {
 	return issue.Message
 }
 
+// The `Issue` struct implements the error interface, which makes it tricky
+// to serialize. This `IssueDTO` struct is required because we do need
+// serialization of the issues.
 type IssueDTO struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
