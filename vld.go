@@ -19,10 +19,6 @@ type IssueDTO struct {
 	Value   any    `json:"value"`
 }
 
-func IssueDTOFromIssue(issue Issue) IssueDTO {
-	return IssueDTO(issue)
-}
-
 type Rule func(any) (any, error)
 
 type Validation struct {
@@ -57,7 +53,7 @@ func Validate(validations []Validation) error {
 			if err != nil {
 				validationIssue, ok := err.(Issue)
 				if ok {
-					errors.Errors[validation.Tag] = IssueDTOFromIssue(validationIssue)
+					errors.Errors[validation.Tag] = IssueDTO(validationIssue)
 				} else {
 					errors.Errors[validation.Tag] = IssueDTO{
 						Code:    CODE_UNKNOWN,
